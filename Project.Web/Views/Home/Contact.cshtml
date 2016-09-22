@@ -1,0 +1,233 @@
+﻿@using Project.Web.Common
+@{
+    Layout = "~/Views/Shared/_LayoutOuter.cshtml";
+     SessionHelper session = new  SessionHelper();
+    string sid = @session.UserSession.sid;
+    ViewBag.Title = "User Setting";
+}
+    
+<div class="main_content">
+    
+<div class="container">
+
+<div class="setting_form_sec">
+            <h2> jessy dhanjal</h2>
+            <div>
+          <!-- Nav tabs -->
+          <div class="setting_tab">
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#setting" aria-controls="setting" role="tab" data-toggle="tab">Settings</a></li>
+            <li role="presentation"><a href="#defaults" aria-controls="defaults" role="tab" data-toggle="tab">Defaults</a></li>
+            <li role="presentation"><a href="#notification" aria-controls="notification" role="tab" data-toggle="tab">Notifications</a></li>
+            <li role="presentation"><a href="#organisation" aria-controls="organisation" role="tab" data-toggle="tab"> Request access to an organisation</a></li>
+            <li role="presentation"><a href="#searches" aria-controls="searches" role="tab" data-toggle="tab">Saved searches</a></li>
+          </ul>
+          </div>
+        
+          <!-- Tab panes -->
+          <div class="setting_tab_content">
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active setting_form" id="setting">
+                <form class=" form-horizontal set_form">
+                   <div class="form-group">
+                    <label for="exampleInputEmail1" class="col-sm-3 control-label">Email</label>
+                     <div class="col-sm-9">
+                      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="jessydhanjal@gmail.com">
+                    </div>
+                   </div>
+                  <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">first Name</label>
+                    <div class="col-sm-9">
+                    <input type="text" class="form-control" id="firstName" placeholder="Jessy">
+                    </div>
+                  </div>
+                   <div class="form-group">
+                    <label for="lastName" class="col-sm-3 control-label">last Name</label>
+                    <div class="col-sm-9">
+                    <input type="text" class="form-control" id="lastName" placeholder="dhanjal">
+                    </div>
+                  </div>
+                  <div class="form-group" >
+                    <label for="share code" class="col-sm-3 control-label">share code</label>
+                    <div class="col-sm-9">
+                    <input type="text" class="form-control" id="sharecode" placeholder="">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="share description" class="col-sm-3 control-label">share description</label>
+                    <div class="col-sm-9">
+                    <input type="text" class="form-control" id="sharedescription" placeholder="">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="ResetPassword" class="col-sm-3 control-label">Reset Password</label>
+                    <div class="col-sm-9">
+                    <input type="password" class="form-control" id="ResetPassword" placeholder="">
+                    <span class="char_set">8 characters or longer, containing 2 numbers and 2 letters </span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="confirmPassword" class="col-sm-3 control-label">confirm Password</label>
+                    <div class="col-sm-9">
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="">
+                    </div>
+                  </div>
+                  <div class="form-group common_button">
+                    <label class="col-sm-3 control-label"></label>
+                    <div class="col-sm-9">
+                     <button type="submit" class="btn_common">save</button>
+                     <button type="submit">cancel</button>
+                     </div>
+                  </div>
+                </form>
+            </div>
+            <div role="tabpanel" class="tab-pane default_form" id="defaults">
+              <form class=" form-horizontal set_form">
+                   <div class="form-group">
+                    <label for="exampleInputEmail1" class="col-sm-4 control-label">default organisation</label>
+                     <div class="col-sm-8">
+                       <select class="form-control"><option>university radiology</option></select>
+                    </div>
+                   </div>
+                  <div class="form-group">
+                    <label for="firstName" class="col-sm-4 control-label">default view</label>
+                    <div class="col-sm-8">
+                    <select class="form-control"><option>studies</option></select>
+                    </div>
+                  </div>
+                   <div class="form-group">
+                    <label for="lastName" class="col-sm-4 control-label">default study list</label>
+                    <div class="col-sm-8">
+                     <select class="form-control"><option></option></select>
+                    </div>
+                  </div>
+                  <div class="form-group" >
+                    <label for="share code" class="col-sm-4 control-label">default date format</label>
+                    <div class="col-sm-8">
+                    <select class="form-control"><option>MM-DD-YYYY</option></select>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group common_button">
+                    <label class="col-sm-4 control-label"></label>
+                    <div class="col-sm-8">
+                     <button type="submit" class="btn_common">save</button>
+                     </div>
+                  </div>
+                </form>
+            
+            </div>
+            <div role="tabpanel" class="tab-pane notification_form" id="notification">
+            <form>
+              <table class="table">
+                        <thead>
+                            <tr>
+                               <th></th>
+                                <th><span>on share</span> <input type="checkbox"></th>
+                                <th><span>approval request</span> <input type="checkbox"></th>
+                                <th><span>on upload</span> <input type="checkbox"></th>
+                                <th><span>on harvest</span> <input type="checkbox"></th>
+                                <th><span>on upload fail</span> <input type="checkbox"></th>
+                                <th><span>report attached</span> <input type="checkbox"></th>
+                                <th><span>link used</span> <input type="checkbox"></th>
+                                <th><span>my link used</span> <input type="checkbox"></th>
+                                <th><span>study status change</span> <input type="checkbox"></th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="10" class="left_txt">organisation</td>
+                                
+                            </tr>
+                             <tr>
+                               <td >University Radiology -NJ</td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                             </tr>
+                              <tr>
+                                <td colspan="10" class="left_txt">user</td>
+                                
+                            </tr>
+                            <tr>
+                               <td class="pad_left">jessy dhanjal</td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                               <td><input type="checkbox"></td>
+                             </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group common_button">
+                    <label class="col-sm-3 control-label"></label>
+                    <div class="col-sm-9">
+                     <button type="submit" class="btn_common">save settings</button>
+                     </div>
+                  </div>
+                    </form>
+            </div>
+            <div role="tabpanel" class="tab-pane organisation_form" id="organisation">
+             <form class=" form-horizontal set_form">
+                   <div class="form-group">
+                    <label for="exampleInputEmail1" class="col-sm-4 control-label"> organisation</label>
+                     <div class="col-sm-8">
+                       <select class="form-control"><option>Select an organisation</option></select>
+                    </div>
+                   </div>
+                  <div class="form-group common_button">
+                    <label class="col-sm-4 control-label"></label>
+                    <div class="col-sm-8">
+                     <button type="submit" class="btn_common">send request</button>
+                     <button type="submit">cancel</button>
+                     </div>
+                  </div>
+                </form>
+            
+            </div>
+            <div role="tabpanel" class="tab-pane searches_form" id="searches">
+              <div class="row">
+                 <div class="col-sm-12">
+                 <div class="new_button">
+                	<a href="#"><i aria-hidden="true" class="fa fa-plus"></i>new compound search</a>
+                </div>
+                 </div>
+              <div class="col-sm-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>name </th>
+                                <th>type </th>
+                                <th>criteria</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="3">No saved searches found.</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                
+                        </tbody>
+                    </table>
+                 </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+    </div>
+ </div>
+    <div class="clearfix"></div>
+  </div>

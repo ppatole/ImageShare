@@ -1,0 +1,2656 @@
+﻿@using Project.Web.Common
+@{
+    SessionHelper session = new SessionHelper();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>Virtual Pacs</title>
+<script type="text/javascript">
+    $.cookie("sid", '@session.UserSession.sid');
+</script>
+<!-- Bootstrap -->
+<link href="@Url.Content("~/Content/css1/bootstrap.min.css")" rel="stylesheet">
+<link href="@Url.Content("~/Content/css1/animate.css")" rel="stylesheet">
+<link href="@Url.Content("~/Content/css1/font-awesome.min.css")" rel="stylesheet">
+<!-- REVOLUTION BANNER CSS SETTINGS -->
+<link href="@Url.Content("~/Content/css1/custom.css")" rel="stylesheet">
+<link href="@Url.Content("~/Content/css1/responisve.css")" rel="stylesheet" type="text/css" />
+
+<script src="@Url.Content("~/Content/js/modernizr-custom.js")"></script>
+ <script src="@Url.Content("~/Scripts/js/jQuery-2.1.4.min.js")"></script>
+<script src="@Url.Content("~/Content/js/custom.js")"></script>
+<script src="@Url.Content("~/Content/js/gibberish-aes.js")"></script>
+    <script src="@Url.Content("~/Content/js/aesencryption.js")"></script>
+    <script src="@Url.Content("~/Content/js/aes.js")"></script>
+
+    <script src="@Url.Content("~/Content/js/jquery.fileDownload.js")"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+</head>
+   <!-- BOOTSTRAP CORE STYLE  -->
+   
+ 
+<body class="add_load">
+<input type="text" id="txtuuid" />
+<input type="text" id="txtorgid" />
+
+<main class="animsition"> 
+  <!--Header sec start-->
+  <header class="header">
+    <nav class="navbar navbar-default navbar-fixed-top affix-top" id="mainNav">
+      <div class="container"> 
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" class="navbar-toggle collapsed" type="button"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+          <a href="" class="navbar-brand page-scroll"><img src="@Url.Content("~/Content/img/logo.png")"></a> </div>
+        
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li> <a href="@Url.Action("Index", "Home")" class="page-scroll">Studies</a> </li>
+          @*<li><a href="" class="page-scroll">Activities<span>11</span></a></li>
+            <li> <a href="" class="page-scroll">Patients</a> </li>
+            <li> <a href="" class="page-scroll">Analytics</a> </li>
+            <li> <a href="" class="page-scroll">Cases</a> </li>
+            <li> <a href="" class="page-scroll">Messages</a> </li>*@
+            <li id="adminsetting"></li>
+
+          </ul>
+        </div>
+        <!-- /.navbar-collapse --> 
+      </div>
+      <!-- /.container-fluid -->
+      <div class="header_bluepart">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-sm-6">
+              <div class="studies_area">
+                <label>Studies:</label>
+                <div class="twinpod_drop">
+                  <div class="dropdown">                
+                    <button id="dLabel1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  </button>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel" id="drpmenu">
+                    <li>Organization</li>
+                    <div id="orglist"></div>                    
+                    <li>User</li>
+                    <div id="userlist"></div>
+                    </ul>
+                  </div>
+                </div>
+                <div class="addstudy_drop">
+                  <div class="dropdown">
+                    <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span  class="glyphicon glyphicon-chevron-left "></span> Add Study <span class="glyphicon glyphicon-triangle-bottom drck"></span> </button>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel" id="studyuploadpanel">
+              
+                     @* <li><a href="#">Query Retrive</a></li>
+                      <li><a href="#">Request Study</a></li>*@
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-6 text-right">
+              <div class="top_right_nav">
+                <ul>
+                  <li>
+                    <div class="dropdown"> <a href=""  type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dLabel2"></a>
+                      <ul class="dropdown-menu" aria-labelledby="dLabel" id="drpmenu1">
+                       </ul>
+                    </div>
+                  </li>
+             @if (Request.IsAuthenticated && session.UserSession != null)
+                {
+                  <li>
+                    <div class="dropdown">
+                    <a  id="uname"  href="@Url.Action("UserSetting", "Home")"><span class="glyphicon glyphicon-cog"></span></a>
+                   @*<ul class="dropdown-menu" aria-labelledby="dLabel">
+                      ...
+                    </ul>*@
+                  </li>
+                
+                  <li><a href="@Url.Action("LogOut", "Account")">Sign Out</a></li>
+                }  
+                 
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </nav>
+    <div class="clearfix"></div>
+  </header>
+  <!--Header sec end--> 
+    
+             
+
+    @RenderBody()
+
+
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-xs-6">
+          <ul>
+            <li><a href="">Indications For Use</a></li>
+            <li><a href="">Terms of Use</a></li>
+            <li><a href="">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 col-xs-6 text-right">
+          <p>© 2012-2016 VirtualPACS, Inc.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--end of footer--> 
+  <!-- share Modal start -->
+   <!-- audit modal start -->
+  <div class="modal fade" id="auditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Audit Details For</h4>
+        </div>
+        <div class="modal-body">
+          <div class="audit_table">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Time-stamp</th>
+                  <th>who</th>
+                </tr>
+              </thead>
+              <tbody id="auditfor">
+             
+              </tbody>
+            </table>
+            <table class="table>
+              <tbody id="auditfor">
+               Study Storage Details <br /><br />
+
+                STORAGE_HOST: <label id="STORAGE_HOST" ></label><br />
+
+                STORAGE_NS: <label  id="STORAGE_NS" ></label><br />
+
+                STUDY_UID: <label  id="STUDY_UID" > </label><br />
+
+                PHI_NS: <label  id="PHI_NS" > </label><br />
+
+                STUDY_UUID: <label   id="STUDY_UUID" > </label>
+              </tbody>              
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- share Modal end --> 
+  <!-- audit modal end --> 
+  <!-- share Modal start -->
+  <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Share Studies</h4>
+        </div>
+        <div class="modal-body">
+          <div class="share_content">
+            <h3>You are sharing the following studies</h3>
+            <ul id="sharepname">
+             
+            </ul>
+            <div class="modal_message">
+              <form>
+                <div class="form-group">
+                  <label>Message To Recipient</label>
+                  <textarea class="form-control" rows="5" id="txtsharemsg"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal_tab clearfix"> 
+              
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#organization" aria-controls="organization" role="tab" data-toggle="tab" >Organizations</a></li>
+                <li role="presentation"><a href="#location" aria-controls="location" role="tab" data-toggle="tab">Locations</a></li>
+                <li role="presentation"><a href="#group" aria-controls="group" role="tab" data-toggle="tab">Groups</a></li>
+                <li role="presentation"><a href="#physician" aria-controls="physician" role="tab" data-toggle="tab">Physicians</a></li>
+                <li role="presentation"><a href="#share" aria-controls="share" role="tab" data-toggle="tab">Share Code</a></li>
+                <li role="presentation"><a href="#email" aria-controls="email" role="tab" data-toggle="tab">Email</a></li>
+              </ul>
+              
+              <!-- Tab panes -->
+              <div class="tab-content clearfix">
+                <div role="tabpanel" class="tab-pane active" id="organization">
+                  <div class="modal_check" id="shareorganization">
+                                    
+                  </div>
+                  <div class="modal_search">
+                    <div class="form-group">
+                      <input type="text" id="txtorganization" class="form-control" placeholder="Live Search">
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="location">
+                  <div class="modal_check" id="sharelocation">
+                                    
+                  </div>
+                    <div class="modal_search">
+                    <div class="form-group">
+                      <input type="text" id="txtlocation" class="form-control" placeholder="Live Search">
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="group">
+
+                  <div class="modal_check" id="sharegroup">
+                                    
+                  </div>
+                    <div class="modal_search">
+                    <div class="form-group">
+                      <input type="text" id="txtgroup" class="form-control" placeholder="Live Search">
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="physician">
+                 <div class="modal_check" id="shareuser">
+                                    
+                  </div>
+                  <div class="modal_search">
+                    <div class="form-group">
+                      <input type="text" id="txtuser" class="form-control" placeholder="Live Search">
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="share">
+                  <div class="modal_search">
+                    <div class="form-group">
+                     
+                      <input type="text" id="txtsharecode" class="form-control" placeholder="Share Code">
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="email">
+                   <div class="modal_search">
+                    <div class="form-group">
+                      
+                      <input type="text" id="txtemail" class="form-control" placeholder="Email">
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="modal_button">
+              <button type="button" class="btn btn-primary" id="sharemodalclose" onclick="ShareStudy();">Save changes</button>
+              <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- share Modal end --> 
+  <!-- share Modal end --> 
+ <!--download model start here -->
+    <div class="modal fade" id="download" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">study link</h4>
+                </div>
+                <div class="modal-body">
+                    <p>select link and copy to clipboard</p>
+                    <textarea class="form-control" id="copystudylink"></textarea>
+                    <p>click <a href="#">here</a> to open in study in a new tab</p>
+                    <div class="hidden guest_link" id="guestlinkshow">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="group_heading">
+                                    <h4>guest link</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="new_button">
+                                    <a href="#" class="guest_link"><i aria-hidden="true" class="fa fa-plus"></i>new guest link</a>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="guest_content">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="max uses">max uses</label>
+                                            <input type="text" class="form-control" id="guestmaxuses" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Expires">Expires</label>
+                                            <select class="form-control" id="guestlinktime">
+                                                <option value="">never</option>
+                                                <option value="60">1 hour</option>
+                                                <option value="360">12 hours</option>
+                                                <option value="1440">1 day</option>
+                                                <option value="4320">3 days</option>
+                                                <option value="10080">1 week</option>
+                                                <option value="40320">4 weeks</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Password</label>
+                                            <input type="password" class="form-control" id="guestlinkpassword" placeholder="">
+                                        </div>
+                                        <div class="button_box">
+                                            <button type="button" class="btn save_btn" onclick="addGuestLink();">Save</button>
+                                            <button type="button" class="btn" id="cancel">cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <input type="hidden" id="guestlinkcount"/>
+                            <div class="col-md-12 col-sm-12" id="showlinks">
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+<!--download model end here-->
+
+ <!--eye  Modal start -->
+
+<div class="modal fade" id="eye_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+       
+      </div>
+      <div class="modal-body">
+      <iframe id="stdiframe"   width="1024" height="600" frameborder="0" style="border:0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+ <!--eye  Modal end -->
+<div class="modal fade" id="destinationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Send to destination</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="share_content">
+                            <h3>You are sharing the following studies</h3>
+                            <ul id="sharedname">
+                            </ul>
+                            @*<div class="modal_message">
+                                <form>
+                                    <div class="form-group">
+                                        <label>Message To Recipient</label>
+                                        <textarea class="form-control" rows="5"></textarea>
+                                    </div>
+                                </form>
+                            </div>*@
+                            <div class="modal_tab clearfix">
+
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation"><a href="#Destination" aria-controls="Destination" role="tab" data-toggle="tab">Destination</a></li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div role="tabpanel" class="tab-pane" id="Destination">
+                                  <div class="modal_check" id="sharedestination">
+                                    
+                                    </div>
+                                <div class="modal_search">
+                                    <div class="form-group">
+                                    <input type="text" id="txtdestination" class="form-control" placeholder="Live Search">
+                                </div>
+                                </div>
+                                </div>
+                   
+  
+                                </div>
+                            </div>
+                            <div class="modal_button">
+                                <button type="button" class="btn btn-primary" id="destimodalclose" onclick="ShareDestination();">Save changes</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</main>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+<script src="@Url.Content("~/Content/js/jquery.min.js")"></script> 
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+<script src="@Url.Content("~/Content/js/bootstrap.min.js")"></script>
+
+<script src="@Url.Content("~/Content/js/bootstrap-multiselect.js")"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //Get All The Users Information for the list
+        GetUserInfo();
+        //Get All The Organization Information
+        getOrg();
+        //Get All List Of Study
+        GetAllCase();
+        //Get All Categories of study
+        getStudiesCat();
+        //alert($('#txtuuid').val());
+        $(".new_button a").click(function () {
+            $(".guest_content").slideDown("");
+        });
+
+        $("#cancel").click(function () {
+            $(".guest_content").slideUp("");
+        });
+    });
+
+    //Fetch Report From the Server
+    function getReportDoc(str) {
+
+        var sid = '@session.UserSession.sid';
+        var storage_namespace = $('#storage_namespace' + str).val();
+        var engine_fqdn = $('#engine_fqdn' + str).val();
+        var stduid = $('#stduid' + str).val();
+        var phi_namespace = $('#phi_namespace' + str).val();
+        var filenameid = $('#filenameid' + str).val();
+        var version = $('#fileversion' + str).val();
+        var filemimetype = $('#filemimetype' + str).val();
+
+
+        $.ajax({
+            url: 'https://' + engine_fqdn + '/api/v3/storage/study/' + storage_namespace + '/' + stduid + '/attachment/' + filenameid + '/schema/version/' + version + '/schema?phi_namespace=' + phi_namespace + '&sid=' + sid + '',
+            type: "GET",
+            success: function (data, textStatus, jqXHR) {
+                var header = jqXHR.getResponseHeader('Content-Disposition');
+                if (header && header.indexOf('attachments') === 0) {
+                    alert("Found" + data);
+
+                } else {
+                    alert(data); //data is just text in my case explaining there was no file
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("Error" + errorThrown);
+            }
+        });
+
+    }
+
+    //Delete Report From the server
+    function deleteReportFile(str) {
+
+        var sid = '@session.UserSession.sid';
+        var storage_namespace = $('#storage_namespace' + str).val();
+        var engine_fqdn = $('#engine_fqdn' + str).val();
+        var stduid = $('#stduid' + str).val();
+        var phi_namespace = $('#phi_namespace' + str).val();
+        var filenameid = $('#filenameid' + str).val();
+        var version = $('#fileversion' + str).val();
+        var filemimetype = $('#filemimetype' + str).val();
+        //var phi_namespace = phi_namespace1;
+        alert("Phi NamesSpaces" + phi_namespace);
+        alert("id = " + filenameid);
+        alert("version =" + version);
+        alert("Mime Type = " + filemimetype);
+        //alert('https://virtualpacs.dicomgrid.com/host/' + engine_fqdn + '/api/v3/storage/study/' + storage_namespace + '/' +
+            //stduid + '/attachment/' + filenameid + '/version/' + version + '/schema?phi_namespace=' + phi_namespace + '&sid=' + sid);
+        $.ajax({
+            url: 'https://virtualpacs.dicomgrid.com/host/' + engine_fqdn + '/api/v3/storage/study/' + storage_namespace + '/' + stduid + '/attachment/' + filenameid + '/version/' + version + '?phi_namespace=' + phi_namespace + '&sid=' + sid + '',
+            type: "DELETE",
+            success: function (data, textStatus, jqXHR) {
+
+                alert("Success" + data);
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("Error" + errorThrown);
+            }
+        });
+
+
+
+
+    }
+    //Fetch list of reports
+    function getReportList(str) {
+        //alert('Hello');
+
+        var sid = '@session.UserSession.sid';
+        var storage_namespace = $('#storage_namespace' + str).val();
+        var engine_fqdn = $('#engine_fqdn' + str).val();
+        var stduid = $('#stduid' + str).val();
+        var phi_namespace = $('#phi_namespace' + str).val();
+        //alert("Phi NamesSpaces" + phi_namespace);
+        $('#reportlist' + str).html("No Report Found");
+        $.ajax({
+            url: 'https://' + engine_fqdn + '/api/v3/storage/study/' + storage_namespace + '/' + stduid + '/schema?phi_namespace=' + phi_namespace + '&sid=' + sid + '',
+            async: false,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                var _html = "";
+                for (var i = 0 ; i <= data.attachments.length; i++) {
+
+                    var myDate = new Date(data.attachments[i].stored);;
+                    var dt = myDate.toString("dddd, mmmm dS, yyyy, h:MM:ss TT");
+                    _html += "<div class='first_step clearfix'><div class='left_detail_modal'><h4><a href='https://virtualpacs.dicomgrid.com/host/" + engine_fqdn + "/api/v3/storage/study/" + storage_namespace + "/" + stduid + "/attachment/" + data.attachments[i].id + "/version/" + data.attachments[i].version + "?phi_namespace=" + phi_namespace + "&sid=" + sid + "' target='_blank'><input type='hidden' id='filenameid" + str + "' value='" + data.attachments[i].id + "'/><input type='hidden' id='fileversion" + str + "' value='" + data.attachments[i].version + "'/><input type='hidden' id='filemimetype" + str + "' value='" + data.attachments[i].mime + "'/>" + data.attachments[i].filename + "</a></h4>";
+                    _html += "<p>From: Twinpod</p><p>Uploaded: " + dt + "</p></div><div class='right_detail_modal'><span><a href='#' onClick='deleteReportFile(" + str + ");'><i class='fa fa-trash' aria-hidden='true'></i> Delete</a></span>"
+                    _html += "</div></div>";
+                    $('#reportlist' + str).html(_html);
+                }
+
+            },
+            error: function (xhr) {
+
+                alert('error');
+            }
+        });
+
+    }
+
+
+    //Upload Report Attachment
+    function uploadReport(str) {
+        //alert('Hello');
+        var sid = '@session.UserSession.sid';
+        var storage_namespace = $('#storage_namespace' + str).val();
+        var engine_fqdn = $('#engine_fqdn' + str).val();
+        var stduid = $('#stduid' + str).val();
+
+        var data = new FormData();
+        var files = $("#reportfile" + str).get(0).files;
+        //alert(files);
+        if (files.length > 0) {
+            data.append("upload", files[0]);
+        }
+        //alert(data);
+
+        //alert(storage_namespace + " / " + engine_fqdn + " / " + stduid);
+        $.ajax({
+            url: 'https://' + engine_fqdn + '/api/v3/storage/study/' + storage_namespace + '/' + stduid + '/attachment',
+            contentType: 'multipart/form-data',
+            dataType: "json",
+            type: "POST",
+            data: { "sid": sid, "data": data },
+            async: false,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                alert('File Upload Success');
+            },
+            error: function (xhr) {
+                alert('Error In Uploading');
+            }
+        });
+        return false;
+    }
+
+    //Open Study Viewer
+    function openViewer(str) {
+
+        var filter = "";
+        var storage_namespace = $('#storage_namespace' + str).val();
+        var stduid = $('#stduid' + str).val();
+        var phi_namespace = $('#phi_namespace' + str).val();
+        var accession_number = $('#accession_number' + str).val();
+        filter = '{"filter.accession_number.equals":"' + accession_number + '"}';
+        alert(filter);
+       
+        //$('#stdviewer' + str).attr("data-toggle", "modal");
+        //$('#stdviewer' + str).attr("data-target", "#eye_model");
+        //var studylink = "http://access.dicomgrid.com/api/v3/link/external?u=f46d6446-d9f2-482e-a036-f701786f1e96&v=" + base64 + "";
+
+        //window.open(studylink, '_blank');
+        //$('#stdiframe').attr("src", studylink);
+
+        $('#stdviewer' + str).attr("data-toggle", "modal");
+        $('#stdviewer' + str).attr("data-target", "#eye_model");
+        
+        $.ajax({
+            url: '/Home/EncryptFilter',            
+            type: "GET",
+            data: { "filter": filter },
+            success: function (data) {
+
+                //alert("Success" + data);
+                //var base64 = window.btoa(data);
+                //var encodeurl = encodeURIComponent(base64);
+                //alert(encodeurl);
+              
+                var studylink = "https://virtualpacs.dicomgrid.com/api/v3/link/external?u=f46d6446-d9f2-482e-a036-f701786f1e96&v=" + data + "";
+                $('#stdiframe').attr("src", studylink);
+                //window.open(studylink, '_blank');
+                //$('#stdiframe').attr("src", studylink);
+
+
+            },
+            error: function (xhr) {
+                var _html = "";
+                alert("Error"+xhr);
+                
+            }
+        });
+
+        
+        
+        /*        $.ajax({
+                    url: 'https://virtualpacs.dicomgrid.com/api/v3/account/user/list',
+                    dataType: "json",
+                    type: "POST",
+                    data: { "sid": sid, "uuid": orgid },
+                    //async: false,
+                    //cache: false,
+                    success: function (data) {
+
+                        for (var i = 0; i <= data.users.length; i++) {
+
+
+                            $('#stdviewer' + str).attr("data-toggle", "modal");
+                            $('#stdviewer' + str).attr("data-target", "#eye_model");
+                            var studylink = "https://virtualpacs.dicomgrid.com/api/v3/link/external?u=" + data.users[i].user_account_id + "&v=" + encodeurl;
+
+                            window.open(studylink, '_blank');
+                            $('#stdiframe').attr("src", studylink);
+                            alert(data.users[i].user_account_id);
+
+                        }
+
+
+                    },
+                    error: function (xhr) {
+                        var _html = "";
+
+                        $.each(xhr, function (i, value) {
+
+
+                        });
+
+                    }
+                });
+                */
+        //alert("storagenamespace = " + storage_namespace + " study Uid = " + stduid + " phinamespace = " + phi_namespace);
+        //var stdlink = $('#studylink' + str).val();
+        //  var stdlink = "https://virtualpacs.dicomgrid.com?route=study_browse&sid" + sid + "&study=" + storage_namespace + "/" + stduid + "&phi_namespace=" + phi_namespace;
+
+
+        //alert(stdlink + "&sid=" + sid);
+        //$('#stdlinkurl').val(stdlink + "&sid=" + sid);
+
+        // $('#stdiframe').attr("src", stdlink + "&sid="+sid);
+
+
+    }
+
+    // Add guest List
+
+    function addGuestLink() {
+        // alert('start');
+        var sid = '@session.UserSession.sid';
+        var id = $('#guestlinkcount').val();
+        var stduid = $('#stdid' + id).val();
+        var guestmaxuses = $('#guestmaxuses').val();
+        var guestlinktime = $('#guestlinktime').find('option:selected').val();
+        var guestlinkpassword = $('#guestlinkpassword').val();
+        if (guestmaxuses == "") {
+            alert("Please Enter Users Number");
+            $('#guestmaxuses').focus();
+        } else if (guestlinkpassword == "") {
+            alert("Please Enter Password");
+            $('#guestlinkpassword').focus();
+        } else {
+            //alert("stduid = " + stduid + " guestmaxuses=" + guestmaxuses + " guestlinktime=" + guestlinktime + " guestlinkpassword" + guestlinkpassword);
+            $.ajax({
+                url: 'https://access.dicomgrid.com/api/v3/link/add',
+                dataType: "json",
+                type: "POST",
+                data: { "sid": sid, "study_id": stduid, "action": "STUDY_VIEW", "password": guestlinkpassword, "max_hits": guestmaxuses, "minutes_alive": guestlinktime },
+                //async: false,
+                //cache: false,
+                success: function (data) {
+                    //alert('start1');
+                    var _html = $('#showlinks').html();
+
+                    if (data.status == "OK") {
+                        alert("Link Created Successfully");
+
+                        _html += "<div class='delete_wrap'><input type='text' class='form-control' value='" + data.url + "'>";
+                        _html += "<span><i class='fa fa-trash' aria-hidden='true'></i></span></div>";
+                        $('#showlinks').html(_html);
+                    }
+
+                },
+                error: function (xhr) {
+                    var _html = "";
+
+                    $.each(xhr, function (i, value) {
+                        //_html += i + "-" + value + "<br>";
+                        // $('#newtr').html(value);
+
+                    });
+                    // $('#tblEditSession').html(_html);
+                }
+            });
+        }
+    }
+
+
+    // Oen Report in New Tab
+
+    function openDownlod(link) {
+        //alert(link);
+        var storage_namespace = $('#storage_namespace' + link).val();
+        var stduid = $('#stdid' + link).val();
+        var phi_namespace = $('#phi_namespace' + link).val();
+        //alert(storage_namespace);
+
+        //var studylink = $('#studylink' + link).val();
+
+        var stdlink = "https://virtualpacs.dicomgrid.com?route=study_browse&study=" + storage_namespace + "/" + stduid + "&phi_namespace=" + phi_namespace;
+
+        $('#copystudylink').text(stdlink);
+        $('#guestlinkcount').val(link);
+
+        var sid = '@session.UserSession.sid';
+        $('#showlinks').html("No Link Found");
+
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/link/list',
+            dataType: "json",
+            type: "POST",
+            data: { "sid": sid, "study_id": stduid },
+            async: false,
+            cache: false,
+            success: function (data) {
+
+                var _html = "";
+                for (var i = 0; i <= data.links.length; i++) {
+                    if (data.links[i].url != "") {
+                        _html += "<div class='delete_wrap'><input type='text' class='form-control' value='" + data.links[i].url + "'>";
+                        _html += "<span><i class='fa fa-trash' aria-hidden='true'></i></span></div>";
+                    }
+                    $('#showlinks').html(_html);
+                }
+
+
+
+            },
+            error: function (xhr) {
+                var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+                    // $('#newtr').html(value);
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+
+
+
+        //alert('Hello'+studylink+link);
+    }
+
+    function GetUserInfo() {
+
+        var sid = '@session.UserSession.sid';
+        //var studyuid = $('#stdid' + count).val();
+        //var uuid = '@session.UserSession.uuid';f
+        //alert("Hello Pdata" + sid );
+
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/user/get',
+            dataType: "json",
+            type: "POST",
+            data: { "sid": sid },
+            //async: false,
+            //cache: false,
+            success: function (data) {
+                $('#uname').html(data.name + "<span class=\"glyphicon glyphicon-cog\"></span>");
+                $('#settinguname').html(data.name);
+                $('#exampleInputEmail1').val(data.email);
+                $('#firstName').val(data.first);
+                $('#lastName').val(data.last);
+
+            },
+            error: function (xhr) {
+                var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+                    // $('#newtr').html(value);
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+
+    }
+
+    function getOrg() {
+
+
+        var sid = '@session.UserSession.sid';
+        //var studyuid = $('#stdid' + count).val();
+        //var uuid = '@session.UserSession.uuid';
+        //alert("Hello Pdata" + sid );
+
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/account/list',
+            dataType: "json",
+            type: "POST",
+            data: { "sid": sid, "permissions": "1" },
+            //async: false,
+            //cache: false,
+            success: function (data) {
+                var _html = "";
+                var _html1 = "";
+                var j = 0;
+                for (var i = 0; data.accounts.length; i++) {
+
+
+                    if (j == 0) {
+
+                        $('#txtorgid').val(data.accounts[i].uuid);
+                        $('#txtnamespaceid').val(data.accounts[i].namespace_id)
+                        $('#dLabel2').html(data.accounts[i].name + " <span class='glyphicon glyphicon-triangle-bottom drop_icon'></span>");
+
+
+                        j = 1;
+                    }
+
+                    // alert(data.accounts[i].permissions.link_edit);
+
+                    if (data.accounts[0].permissions.link_edit == 1 && data.accounts[0].permissions.link_view == 1 && data.accounts[0].permissions.link_edit_upload == 1) {
+
+                        $('#studyuploadpanel').html("<li><a href='@Url.Action("UploadStudy","Home")'>Upload Studies</a></li>");
+
+                    }
+
+                    _html1 += "<li><input type='hidden' id='orgroleid" + i + "' value='" + data.accounts[i].role_id + "'/><input type='hidden' id='acceditstatus" + i + "' value='" + data.accounts[i].permissions.account_edit + "' /> <input type='hidden' id='link_edit" + i + "' value='" + data.accounts[i].permissions.link_edit + "' /> <input type='hidden' id='link_view" + i + "' value='" + data.accounts[i].permissions.link_view + "' /> <input type='hidden' id='link_edit_upload" + i + "' value='" + data.accounts[i].permissions.link_edit_upload + "' /> <input type='hidden' id='uuid1" + i + "' value='" + data.accounts[i].uuid + "'/><input type='hidden' id='namespace_id" + i + "' value='" + data.accounts[i].namespace_id + "'/><a id='tp1" + i + "' href='#' onclick='changeFilter1(" + i + ");'>" + data.accounts[i].name + "</a></li>";
+
+                    //}
+                    //$('#drpmenu').html(_html);
+                    $('#drpmenu1').html(_html1);
+                    // $('#orglist').html(_html);
+                }
+
+
+
+
+
+            },
+            error: function (xhr) {
+                var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+                    // $('#newtr').html(value);
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+
+    }
+
+
+    //Call when user select another organization
+    function changeFilter(id) {
+
+        var tp1 = $('#tp' + id).html();
+        var uuid = $('#uuid' + id).val();
+
+        $('#txtuuid').val(uuid);
+        // alert(uuid);
+
+        $('#dLabel1').html(tp1 + "<span class='caret'></span>");
+
+        FilterData(uuid);
+        //alert("uuid is = " +uuid);
+        var sid = '@session.UserSession.sid';
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/user/namespace/list',
+            dataType: "json",
+            type: "POST",
+            data: { "sid": sid, "filter.uuid.equals": uuid },
+            async: false,
+            cache: false,
+            success: function (data) {
+
+
+                for (var i = 0; i <= data.namespaces.length - 1; i++) {
+
+                    if (data.namespaces[i].permissions.link_edit == 1) {
+                        $('#guestlinkshow').removeClass('hidden');
+                    } else {
+                        $('#guestlinkshow').addClass('hidden');
+                    }
+
+                }
+
+
+
+            },
+            error: function (xhr) {
+                var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+                    // $('#newtr').html(value);
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+
+        //  loadPermissions(uuid);
+
+
+
+    }
+
+    // call when user select second organization tab
+    function orgchangeFilter(id) {
+
+        var tp1 = $('#orgtp1' + id).html();
+        var uuid = $('#orguuid1' + id).val();
+
+        $('#txtorgid').val(uuid);
+        // alert(uuid);
+
+        $('#dLabel1').html(tp1 + "<span class='caret'></span>");
+
+        FilterData(uuid);
+        //alert("uuid is = " + uuid);
+
+        var sid = '@session.UserSession.sid';
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/user/namespace/list',
+            dataType: "json",
+            type: "POST",
+            data: { "sid": sid, "filter.uuid.equals": uuid },
+            async: false,
+            cache: false,
+            success: function (data) {
+
+                for (var i = 0; i <= data.namespaces.length - 1; i++) {
+
+                    if (data.namespaces[i].permissions.link_edit == 1) {
+                        $('#guestlinkshow').removeClass('hidden');
+                    } else {
+                        $('#guestlinkshow').addClass('hidden');
+                    }
+                }
+
+            },
+            error: function (xhr) {
+                var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+                    // $('#newtr').html(value);
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+
+        //loadPermissions(uuid);
+    }
+
+
+
+    function changeFilter1(id) {
+
+        var tp1 = $('#tp1' + id).html();
+        var uuid1 = $('#uuid1' + id).val();
+        var namespace_id = $('#namespace_id' + id).val();
+        var accounteditstatus = $('#acceditstatus' + id).val();
+        var orgroleid = $('#orgroleid' + id).val();
+        //alert('Role id = ' + orgroleid);
+        var link_edit = $('#link_edit' + id).val();
+        var link_view = $('#link_view' + id).val();
+        var link_edit_upload = $('#link_edit_upload' + id).val();
+        //alert(link_edit + link_view + link_edit_upload);
+        if (link_edit == 1 && link_view == 1 && link_edit_upload == 1) {
+
+            $('#studyuploadpanel').html("<li><a href='@Url.Action("UploadStudy","Home")'>Upload Studies</a></li>");
+        }
+        //alert(accounteditstatus);
+        if (accounteditstatus == 1) {
+            $('#adminsetting').html('<a href="@Url.Action("AdminSetting", "Home")" class="page-scroll">Administration</a> ');
+
+        } else {
+            $('#adminsetting').html("");
+        }
+        $('#txtorgid').val(uuid1);
+        $('#txtnamespaceid').val(namespace_id);
+        //addlink();
+        // alert(uuid1);
+        $('#dLabel2').html(tp1 + "<span class='caret'></span>");
+        getStudiesCat();
+        FilterData($('#txtuuid').val());
+
+
+
+        // return false;
+    }
+    //get all the namespace list
+    function getStudiesCat() {
+        var uuid = "";
+        var sid = '@session.UserSession.sid';
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/user/namespace/list',
+            dataType: "json",
+            type: "POST",
+            data: { "sid": sid },
+            //async: false,
+            //cache: false,
+            success: function (data) {
+                var _html = "";
+                var _html1 = "";
+                for (var i = 0; data.namespaces.length; i++) {
+
+                    if (data.namespaces[i].type == "user_id") {
+
+                        uuid = data.namespaces[i].uuid;
+                        $('#txtuuid').val(data.namespaces[i].uuid);
+                        $('#dLabel1').html(data.namespaces[i].name + " <span class='caret'></span>");
+                        _html += "<li><input type='hidden' id='uuid" + i + "' value='" + data.namespaces[i].uuid + "'/><a id='tp" + i + "' href='#' onclick='changeFilter(" + i + ");'>" + data.namespaces[i].name + "</a></li>";
+
+                    }
+
+                    var orgid = $('#txtorgid').val();
+
+                    if (data.namespaces[i].type_uuid == orgid) {
+
+                        _html1 += "<li><input type='hidden' id='orguuid1" + i + "' value='" + data.namespaces[i].uuid + "'/><a id='orgtp1" + i + "' href='#' onclick='orgchangeFilter(" + i + ");'>" + data.namespaces[i].name + "</a></li>";
+
+                    }
+
+                    //$('#dLabel2').html(data.namespaces[0].name + " <span class='glyphicon glyphicon-triangle-bottom drop_icon'></span>");
+                    //if(data.namespaces[i].type == "user_id")
+                    //_html += "<li><input type='hidden' id='uuid" + i + "' value='" + data.namespaces[i].uuid + "'/> <a id='tp" + i + "' href='#' onclick='changeFilter(" + i + ");'>" + data.namespaces[i].name + "</a></li>";
+                    // else
+                    //_html1 += "<li><input type='hidden' id='uuid1" + i + "' value='" + data.namespaces[i].namespace_id + "'/><a id='tp1" + i + "' href='#' onclick='changeFilter1(" + i + ");'>" + data.namespaces[i].name + "</a></li>";
+
+                    $('#orglist').html(_html1);
+                    $('#userlist').html(_html);
+
+                }
+
+
+
+
+
+            },
+            error: function (xhr) {
+                var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+                    // $('#newtr').html(value);
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+
+
+        });
+
+
+    }
+
+    //Filter Data for the advance search
+    function FilterData(id) {
+        var sid = '@session.UserSession.sid';
+        var uuid = id;
+        var orgid = $('#txtorgid').val();
+        //  var strnum = str;
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/study/list',
+            dataType: "json",
+            type: "POST",
+            //contentType: 'application/json; charset=utf-8',
+            data: { "sid": sid, "filter.phi_namespace.equals": uuid, "sort_by": "patient_name-asc" },
+            async: false,
+            // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+            // processData: false,
+            cache: false,
+            success: function (data) {
+                var _html = "";
+                $.each(data, function (i, value) {
+
+                    if (uuid != orgid) {
+                        for (var i = 0; i < value.length; i++) {
+                            if (value[i].patient_name != undefined) {
+                                var dob = value[i].patient_birth_date;
+                                var dobnew = parseInt(dob);
+                                var stdtime = parseInt(value[i].study_time);
+                                var hours = (stdtime.toString().substr(0, 2));
+                                var minutes = (stdtime.toString().substr(2, 2));
+                                var ampm = hours >= 12 ? 'PM' : 'AM';
+                                hours = hours % 12;
+                                hours = hours ? hours : 12; // the hour '0' should be '12'
+                                minutes = minutes < 10 ? '0' + minutes : minutes;
+                                var strTime = hours + ':' + minutes + ' ' + ampm;
+                                _html += "<tr><td><input type='checkbox'></td><td><h4 id='h4pname" + i + "'>" + value[i].patient_name + "</h4><div class='adit_area'><a href='' data-toggle='modal' data-target='#auditModal' onClick='getPAuditDetail(" + i + ");'><i class='fa fa-file-text-o'></i></a> <a href='#' class='star_box'><span aria-hidden='true' class='glyphicon glyphicon-star'></span></a><input type='hidden' id='studylink" + i + "' value='" + value[i].viewer_link + "' /> <a href='#' data-toggle='modal' data-target='#download' onclick='openDownlod(" + i + ");'><span aria-hidden='true' class='glyphicon glyphicon-download-alt'></span></a></div>";
+                                _html += "<p>(" + value[i].patient_sex + ") DOB " + dobnew.toString().substring(0, 4) + "-" + dobnew.toString().substr(4, 2) + "-" + dobnew.toString().substr(6, 2) + " MRN " + value[i].patientid + "</p></td>";
+                                _html += "<td><h4>" + value[i].study_description + "</h4><p>" + value[i].modality + " " + value[i].image_count + " Images    Acc  " + value[i].accession_number + "";
+                                _html += " RPhys:" + value[i].referring_physician + "</p><a href=''>Study Status</a></td><td><h4>" + (parseInt(value[i].study_date)).toString().substr(4, 2) + "-" + (parseInt(value[i].study_date)).toString().substr(6, 2) + "-" + (parseInt(value[i].study_date)).toString().substr(0, 4) + "</h4><p>" + strTime + "</p></td>";
+                                _html += "<td><h4>" + value[i].created + "</h4></td><td><div class='drop_list'><ul><li><div id='stdviewer" + i + "' class='dropdown' onclick='openViewer(" + i + ");'><span class='glyphicon glyphicon-eye-open'></span> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <span class='glyphicon glyphicon-triangle-bottom myset'></span> </a>";
+                                _html += "<ul class='dropdown-menu' aria-labelledby='dLabel'><li><a href='#'>Open in New Tab</a></li><li><a href='#'>Open with Simple Viewer</a></li></ul></div></li><li><div class='dropdown'> <span aria-hidden='true' class='glyphicon glyphicon-circle-arrow-down'></span> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <span class='glyphicon glyphicon-triangle-bottom myset'></span> </a>";
+                                _html += "<ul class='dropdown-menu' aria-labelledby='dLabel'><li><a href='#'>Download Viewer</a></li><li><a href='#'>Download ISO</a></li></ul></div></li><li class='anchor_link'><div class='dropdown'> <input type='hidden' id='stdid" + i + "' value='" + value[i].uuid + "'/> <input type='hidden' id='stduid" + i + "' value='" + value[i].study_uid + "'/> <input type='hidden' id='phi_namespace" + i + "' value='" + value[i].phi_namespace + "'/> <input type='hidden' id='accession_number" + i + "' value='" + value[i].accession_number + "'/>  <input type='hidden' id='sharedob" + i + "' value='" + value[i].patient_birth_date + "'/> <input type='hidden' id='shareaccno" + i + "' value='" + value[i].accession_number + "'/><input type='hidden' id='storage_namespace" + i + "' value='" + value[i].storage_namespace + "'/> <input type='hidden' id='engine_fqdn" + i + "' value='" + value[i].engine_fqdn + "'/>  <a href='' onClick='getPdata(" + i + ");' id='dLabel' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span aria-hidden='true' class='glyphicon glyphicon-pencil'></span></a>";
+                                _html += "<ul class='dropdown-menu edit_dropdown' aria-labelledby='dLabel'><form class='form-inline'>";
+                                _html += "<div class='form-group'><input type='text' id='pname" + i + "' class='form-control' placeholder='Patient Name'><input type='text' id='pdob" + i + "' class='form-control' placeholder='Patient DOB'>";
+                                _html += "<select class='form-control'><option>Sex</option><option>M</option><option>F</option></select><input type='text' id='accno" + i + "' class='form-control' placeholder='Study Accession Number'>";
+                                _html += "<input type='text' id='stddesc" + i + "' class='form-control' placeholder='Study Description'><input type='text' id='mrn" + i + "' class='form-control' placeholder='Patient MRN'>";
+                                _html += "<input type='text' id='stddate" + i + "' class='form-control' placeholder='Study Date (mm-dd-yy)'><input type='text' id='rphy" + i + "' class='form-control' placeholder='Referring Physician'>";
+                                _html += "<select class='form-control'><option>Study Modality</option><option>MR</option><option>US</option><option>CS</option></select>";
+                                _html += "<select class='form-control'><option>Study Status</option><option>Signed</option><option>UnSigned</option></select>";
+                                _html += "</div><div class='form-group'><button type='submit' class='btn btn-default search' onClick='UpdatePInfo(" + i + ");'>Save</button><button type='submit' class='btn btn-default'>Cancel</button>";
+                                _html += "</div></form></ul></div></li><li class='anchor_link'><a href='' ><span aria-hidden='true' class='glyphicon glyphicon-file'></span></a></li>";
+                                _html += "<li class='report_link' ><div class='dropdown'><a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'  onClick='getReportList(" + i + ");'> Reports <span class='glyphicon glyphicon-triangle-bottom myset'></span></a>";
+                                _html += "<ul class='dropdown-menu edit_dropdown' aria-labelledby='dLabel'><div id='reportlist" + i + "'></div><div class='attache_div'><h2>Attach report</h2><div class='form-group'><input type='file' id='reportfile" + i + "'></div><div class='form-group'><button type='submit' class='btn btn-default' onclick='return uploadReport(" + i + ");' >Upload</button>";
+                                _html += "</div></div></ul></div></li></ul></div></td></tr>";
+                            }
+                        }
+                    } else {
+                        for (var i = 0; i < value.length; i++) {
+                            if (value[i].patient_name != undefined) {
+                                var dob = value[i].patient_birth_date;
+                                var dobnew = parseInt(dob);
+                                var stdtime = parseInt(value[i].study_time);
+                                var hours = (stdtime.toString().substr(0, 2));
+                                var minutes = (stdtime.toString().substr(2, 2));
+                                var ampm = hours >= 12 ? 'PM' : 'AM';
+                                hours = hours % 12;
+                                hours = hours ? hours : 12; // the hour '0' should be '12'
+                                minutes = minutes < 10 ? '0' + minutes : minutes;
+                                var strTime = hours + ':' + minutes + ' ' + ampm;
+                                _html += "<tr><td><input type='checkbox'></td><td><h4 id='h4pname" + i + "'>" + value[i].patient_name + "</h4><div class='adit_area'><a href='' data-toggle='modal' data-target='#auditModal' onClick='getPAuditDetail(" + i + ");'><i class='fa fa-file-text-o'></i></a><a href='#' class='star_box'><span aria-hidden='true' class='glyphicon glyphicon-star'></span></a><input type='hidden' id='studylink" + i + "' value='" + value[i].viewer_link + "' /> <a href='#' data-toggle='modal' data-target='#download' onclick='openDownlod(" + i + ");'><span aria-hidden='true' class='glyphicon glyphicon-download-alt'></span></a></div>";
+                                _html += "<p>(" + value[i].patient_sex + ") DOB " + dobnew.toString().substring(0, 4) + "-" + dobnew.toString().substr(4, 2) + "-" + dobnew.toString().substr(6, 2) + " MRN " + value[i].patientid + "</p></td>";
+                                _html += "<td><h4>" + value[i].study_description + "</h4><p>" + value[i].modality + " " + value[i].image_count + " Images    Acc  " + value[i].accession_number + "";
+                                _html += " RPhys:" + value[i].referring_physician + "</p><a href=''>Study Status</a></td><td><h4>" + (parseInt(value[i].study_date)).toString().substr(4, 2) + "-" + (parseInt(value[i].study_date)).toString().substr(6, 2) + "-" + (parseInt(value[i].study_date)).toString().substr(0, 4) + "</h4><p>" + strTime + "</p></td>";
+                                _html += "<td><h4>" + value[i].created + "</h4></td><td><div class='drop_list'><ul><li><div id='stdviewer" + i + "' class='dropdown' onclick='openViewer(" + i + ");'> <span class='glyphicon glyphicon-eye-open'></span>  <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <span class='glyphicon glyphicon-triangle-bottom myset'></span> </a>";
+                                _html += "<ul class='dropdown-menu' aria-labelledby='dLabel'><li><a href='#'>Open in New Tab</a></li><li><a href='#'>Open with Simple Viewer</a></li></ul></div></li><li><div class='dropdown'> <span aria-hidden='true' class='glyphicon glyphicon-circle-arrow-down'></span> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <span class='glyphicon glyphicon-triangle-bottom myset'></span> </a>";
+                                _html += "<ul class='dropdown-menu' aria-labelledby='dLabel'><li><a href='#'>Download Viewer</a></li><li><a href='#'>Download ISO</a></li></ul></div></li><li class='anchor_link'><div class='dropdown'> <input type='hidden' id='stdid" + i + "' value='" + value[i].uuid + "'/> <input type='hidden' id='stduid" + i + "' value='" + value[i].study_uid + "'/> <input type='hidden' id='phi_namespace" + i + "' value='" + value[i].phi_namespace + "'/> <input type='hidden' id='accession_number" + i + "' value='" + value[i].accession_number + "'/> <input type='hidden' id='sharedob" + i + "' value='" + value[i].patient_birth_date + "'/> <input type='hidden' id='shareaccno" + i + "' value='" + value[i].accession_number + "'/><input type='hidden' id='storage_namespace" + i + "' value='" + value[i].storage_namespace + "'/> <input type='hidden' id='engine_fqdn" + i + "' value='" + value[i].engine_fqdn + "'/>  <a href='' onClick='getPdata(" + i + ");' id='dLabel' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span aria-hidden='true' class='glyphicon glyphicon-pencil'></span></a>";
+                                _html += "<ul class='dropdown-menu edit_dropdown' aria-labelledby='dLabel'><form class='form-inline'>";
+                                _html += "<div class='form-group'><input type='text' id='pname" + i + "' class='form-control' placeholder='Patient Name'><input type='text' id='pdob" + i + "' class='form-control' placeholder='Patient DOB'>";
+                                _html += "<select class='form-control'><option>Sex</option><option>M</option><option>F</option></select><input type='text' id='accno" + i + "' class='form-control' placeholder='Study Accession Number'>";
+                                _html += "<input type='text' id='stddesc" + i + "' class='form-control' placeholder='Study Description'><input type='text' id='mrn" + i + "' class='form-control' placeholder='Patient MRN'>";
+                                _html += "<input type='text' id='stddate" + i + "' class='form-control' placeholder='Study Date (mm-dd-yy)'><input type='text' id='rphy" + i + "' class='form-control' placeholder='Referring Physician'>";
+                                _html += "<select class='form-control'><option>Study Modality</option><option>MR</option><option>US</option><option>CS</option></select>";
+                                _html += "<select class='form-control'><option>Study Status</option><option>Signed</option><option>UnSigned</option></select>";
+                                _html += "</div><div class='form-group'><button type='submit' class='btn btn-default search' onClick='UpdatePInfo(" + i + ");'>Save</button><button type='submit' class='btn btn-default'>Cancel</button>";
+                                _html += "</div></form></ul></div></li><li class='anchor_link'><a href='' ><span aria-hidden='true' class='glyphicon glyphicon-file'></span></a></li>";
+                                _html += "<li class='report_link'><div class='dropdown'> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' onClick='getReportList(" + i + ");'>  Reports <span class='glyphicon glyphicon-triangle-bottom myset'></span></a>";
+                                _html += "<ul class='dropdown-menu edit_dropdown' aria-labelledby='dLabel'><div id='reportlist" + i + "'></div><div class='attache_div'><h2>Attach report</h2><div class='form-group'><input type='file' id='reportfile" + i + "'></div><div class='form-group'><button type='submit' class='btn btn-default' onclick='return uploadReport(" + i + ");'>Upload</button>";
+                                _html += "</div></div><div class='attache_div'><h2>Record Audio</h2><a href='#'><i class='fa fa-play'></i>Start</a><a href='#'><i class='fa fa-pause'></i>Pause</a><a href='#'><i class='fa fa-stop'></i>Stop</a>";
+                                _html += "</div><div class='last_step clearfix'><div class='left_rediology'><h2>Rediology Reports</h2><p>Rediology Report by Dion<br/>";
+                                _html += "Cini on 29/03/2016</p><form><div class='form-group'><button type='submit' class='btn btn-default'>Create Report</button></div></form></div><div class='right_rediology'>";
+                                _html += "<span><a href='#'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</a></span><span><a href='#'><i class='fa fa-trash' aria-hidden='true'></i>Delete</a></span></div></div></ul></div></li></ul></div></td></tr>";
+                            }
+                        }
+                    }
+                });
+
+                $('#newtr').html(_html);
+
+            },
+            error: function (xhr) {
+                $.each(xhr, function (i, value) {
+
+                });
+
+            }
+        });
+
+
+    }
+</script>
+
+<script type="text/javascript">
+    var expanded = false;
+
+    function showCheckboxes() {
+        var checkboxes = document.getElementById("checkboxes");
+        if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+        } else {
+            checkboxes.style.display = "none";
+            expanded = false;
+        }
+    }
+
+
+
+    function getStddate() {
+        var item = $("#stxtstddate option:selected").val();
+        var today1 = new Date();
+        var dd = today1.getDate();
+        var mm = today1.getMonth() + 1; //January is 0!
+
+        var yyyy = today1.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        var today = mm + '-' + dd + '-' + yyyy;
+
+        if (item == "today") {
+            $('#stxtstddatef').attr('type', 'hidden');
+            $('#stxtstddatet').attr('type', 'hidden');
+            $('#stxtstddatef').val(today);
+            $('#stxtstddatet').val(today);
+        } else if (item == "todayyesterday") {
+            today1.setDate(today1.getDate() - 1);
+            var dd = today1.getDate();
+            var mm = today1.getMonth() + 1; //January is 0!
+            var yyyy = today1.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            $('#stxtstddatef').attr('type', 'hidden');
+            $('#stxtstddatet').attr('type', 'hidden');
+            $('#stxtstddatef').val(mm + '-' + dd + '-' + yyyy);
+            $('#stxtstddatet').val(today);
+        } else if (item == "last3") {
+
+            today1.setDate(today1.getDate() - 3);
+            var dd = today1.getDate();
+            var mm = today1.getMonth() + 1; //January is 0!
+            var yyyy = today1.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            $('#stxtstddatef').attr('type', 'hidden');
+            $('#stxtstddatet').attr('type', 'hidden');
+            $('#stxtstddatef').val(mm + '-' + dd + '-' + yyyy);
+            $('#stxtstddatet').val(today);
+
+        } else if (item == "last3business") {
+
+            today1.setDate(today1.getDate() - 3);
+            var dd = today1.getDate();
+            var mm = today1.getMonth() + 1; //January is 0!
+            var yyyy = today1.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            $('#stxtstddatef').attr('type', 'hidden');
+            $('#stxtstddatet').attr('type', 'hidden');
+            $('#stxtstddatef').val(mm + '-' + dd + '-' + yyyy);
+            $('#stxtstddatet').val(today);
+
+        } else if (item == "last7") {
+
+            today1.setDate(today1.getDate() - 7);
+            var dd = today1.getDate();
+            var mm = today1.getMonth() + 1; //January is 0!
+            var yyyy = today1.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            $('#stxtstddatef').attr('type', 'hidden');
+            $('#stxtstddatet').attr('type', 'hidden');
+            $('#stxtstddatef').val(mm + '-' + dd + '-' + yyyy);
+            $('#stxtstddatet').val(today);
+
+        } else if (item == "last31") {
+
+            today1.setDate(today1.getDate() - 31);
+            var dd = today1.getDate();
+            var mm = today1.getMonth() + 1; //January is 0!
+            var yyyy = today1.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            $('#stxtstddatef').attr('type', 'hidden');
+            $('#stxtstddatet').attr('type', 'hidden');
+            $('#stxtstddatef').val(mm + '-' + dd + '-' + yyyy);
+            $('#stxtstddatet').val(today);
+
+        } else if (item == "lastyear") {
+
+            today1.setDate(today1.getDate() - 365);
+            var dd = today1.getDate();
+            var mm = today1.getMonth() + 1; //January is 0!
+            var yyyy = today1.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            $('#stxtstddatef').attr('type', 'hidden');
+            $('#stxtstddatet').attr('type', 'hidden');
+            $('#stxtstddatef').val(mm + '-' + dd + '-' + yyyy);
+            $('#stxtstddatet').val(today);
+
+        } else if (item == "custom") {
+            $('#stxtstddatef').attr('type', 'text');
+            $('#stxtstddatet').attr('type', 'text');
+            $('#stxtstddatef').val("");
+            $('#stxtstddatet').val("");
+        }
+        // alert(item);
+    }
+    function getUpddate() {
+
+        var item = $("#stxtupddate option:selected").val();
+
+        var today1 = new Date();
+        var dd = today1.getDate();
+        var mm = today1.getMonth() + 1; //January is 0!
+
+        var yyyy = today1.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        var today = mm + '-' + dd + '-' + yyyy;
+
+        if (item == "today") {
+
+            $('#stxtupddatef').attr('type', 'hidden');
+            $('#stxtupddatet').attr('type', 'hidden');
+            $('#stxtupddatef').val(today);
+            $('#stxtupddatet').val(today);
+
+        } else if (item == "todayyesterday") {
+
+            today1.setDate(today1.getDate() - 1);
+            var dd = today1.getDate();
+            var mm = today1.getMonth() + 1; //January is 0!
+            var yyyy = today1.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+
+            $('#stxtupddatef').attr('type', 'hidden');
+            $('#stxtupddatet').attr('type', 'hidden');
+            $('#stxtupddatef').val(mm + '-' + dd + '-' + yyyy);
+            $('#stxtupddatet').val(today);
+        } else if (item == "last3") {
+
+            today1.setDate(today1.getDate() - 3);
+            var dd = today1.getDate();
+            var mm = today1.getMonth() + 1; //January is 0!
+            var yyyy = today1.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            $('#stxtupddatef').attr('type', 'hidden');
+            $('#stxtupddatet').attr('type', 'hidden');
+            $('#stxtupddatef').val(mm + '-' + dd + '-' + yyyy);
+            $('#stxtupddatet').val(today);
+
+        } else if (item == "last3business") {
+
+            today1.setDate(today1.getDate() - 3);
+            var dd = today1.getDate();
+            var mm = today1.getMonth() + 1; //January is 0!
+            var yyyy = today1.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            $('#stxtupddatef').attr('type', 'hidden');
+            $('#stxtupddatet').attr('type', 'hidden');
+            $('#stxtupddatef').val(mm + '-' + dd + '-' + yyyy);
+            $('#stxtupddatet').val(today);
+
+        } else if (item == "last7") {
+
+            today1.setDate(today1.getDate() - 7);
+            var dd = today1.getDate();
+            var mm = today1.getMonth() + 1; //January is 0!
+            var yyyy = today1.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            $('#stxtupddatef').attr('type', 'hidden');
+            $('#stxtupddatet').attr('type', 'hidden');
+            $('#stxtupddatef').val(mm + '-' + dd + '-' + yyyy);
+            $('#stxtupddatet').val(today);
+
+        } else if (item == "last31") {
+
+            today1.setDate(today1.getDate() - 31);
+            var dd = today1.getDate();
+            var mm = today1.getMonth() + 1; //January is 0!
+            var yyyy = today1.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            $('#stxtupddatef').attr('type', 'hidden');
+            $('#stxtupddatet').attr('type', 'hidden');
+            $('#stxtupddatef').val(mm + '-' + dd + '-' + yyyy);
+            $('#stxtupddatet').val(today);
+
+        } else if (item == "lastyear") {
+
+            today1.setDate(today1.getDate() - 365);
+            var dd = today1.getDate();
+            var mm = today1.getMonth() + 1; //January is 0!
+            var yyyy = today1.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            $('#stxtupddatef').attr('type', 'hidden');
+            $('#stxtupddatet').attr('type', 'hidden');
+            $('#stxtupddatef').val(mm + '-' + dd + '-' + yyyy);
+            $('#stxtupddatet').val(today);
+
+        } else if (item == "custom") {
+            $('#stxtupddatef').attr('type', 'text');
+            $('#stxtupddatet').attr('type', 'text');
+            $('#stxtupddatef').val("");
+            $('#stxtupddatet').val("");
+        }
+        //alert(item);
+    }
+
+    //Advance Search
+    function advanceSearch() {
+        //alert("Hello");
+        var jsondata = [];
+        var pname = $('#stxtpname').val();
+        var sex = $("#stxtsex option:selected").val();
+        var stxtmrn = $('#stxtmrn').val();
+        var stxtdob = $('#stxtdob').val();
+        var stxtaccno = $('#stxtaccno').val();
+        var stxtstddesc = $('#stxtstddesc').val();
+        var stxtrefphy = $('#stxtrefphy').val();
+        var stxtstdstage = $('#stxtstdstage option:selected').val();
+        var stxtstdstatus = $('#stxtstdstatus option:selected').val();
+        var stxtstddate = $('#stxtstddate option:selected').val();
+        var stxtstddatef = $('#stxtstddatef').val();
+        var stxtstddatet = $('#stxtstddatet').val();
+        var stxtupddate = $('#stxtupddate option:selected').val();
+        var stxtupddatef = $('#stxtupddatef').val();
+        var stxtupddatet = $('#stxtupddatet').val();
+        var stxtstar = $('#stxtstar option:selected').val();
+        var stxtmodality = $('#stxtmodality option:selected').val();
+        var stxtstdstatus = $('#stxtstdstatus').val();
+        var uuid = $('#txtuuid').val();
+        var sid = '@session.UserSession.sid';
+        pname = pname + "%";
+        //alert(sex);
+        if (pname != "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_name.like": pname, "sort_by": "patient_name-asc" };
+        } else if (pname != "" && sex != "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_name.like": pname, "filter.patient_sex.equals": sex, "sort_by": "patient_name-asc" };
+        } else if (pname != "" && sex != "Sex" && stxtmrn != "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_name.like": pname, "filter.patient_sex.equals": sex, "filter.patientid.equals": stxtmrn, "sort_by": "patient_name-asc" };
+        } else if (pname != "" && sex != "Sex" && stxtmrn != "" && stxtdob != "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_name.like": pname, "filter.patient_sex.equals": sex, "filter.patientid.equals": stxtmrn, "filter.patient_birth_date.equals": stxtdob, "sort_by": "patient_name-asc" };
+        } else if (pname != "" && sex != "Sex" && stxtmrn != "" && stxtdob != "" && stxtaccno != "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_name.like": pname, "filter.patient_sex.equals": sex, "filter.patientid.equals": stxtmrn, "filter.patient_birth_date.equals": stxtdob, "filter.accession_number.equals": stxtaccno, "sort_by": "patient_name-asc" };
+        } else if (pname != "" && sex != "Sex" && stxtmrn != "" && stxtdob != "" && stxtaccno != "" && stxtstddesc != "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_name.like": pname, "filter.patient_sex.equals": sex, "filter.patientid.equals": stxtmrn, "filter.patient_birth_date.equals": stxtdob, "filter.accession_number.equals": stxtaccno, "filter.study_description.like": "%" + stxtstddesc + "%", "sort_by": "patient_name-asc" };
+        } else if (pname != "" && sex != "Sex" && stxtmrn != "" && stxtdob != "" && stxtaccno != "" && stxtstddesc != "" && stxtrefphy != "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_name.like": pname, "filter.patient_sex.equals": sex, "filter.patientid.equals": stxtmrn, "filter.patient_birth_date.equals": stxtdob, "filter.accession_number.equals": stxtaccno, "filter.study_description.like": "%" + stxtstddesc + "%", "filter.referring_physician.like": "%" + stxtrefphy + "%", "sort_by": "patient_name-asc" };
+        } else if (pname != "" && sex != "Sex" && stxtmrn != "" && stxtdob != "" && stxtaccno != "" && stxtstddesc != "" && stxtrefphy != "" && stxtstdstage == "" && stxtstdstatus != "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_name.like": pname, "filter.patient_sex.equals": sex, "filter.patientid.equals": stxtmrn, "filter.patient_birth_date.equals": stxtdob, "filter.accession_number.equals": stxtaccno, "filter.study_description.like": "%" + stxtstddesc + "%", "filter.referring_physician.like": "%" + stxtrefphy + "%", "filter.study_push_status.equals": stxtstdstatus, "sort_by": "patient_name-asc" };
+        } else if (pname != "" && sex != "Sex" && stxtmrn != "" && stxtdob != "" && stxtaccno != "" && stxtstddesc != "" && stxtrefphy != "" && stxtstdstage == "" && stxtstdstatus != "" && stxtstddate != "" && stxtstddatef != "" && stxtstddatet != "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_name.like": pname, "filter.patient_sex.equals": sex, "filter.patientid.equals": stxtmrn, "filter.patient_birth_date.equals": stxtdob, "filter.accession_number.equals": stxtaccno, "filter.study_description.like": "%" + stxtstddesc + "%", "filter.referring_physician.like": "%" + stxtrefphy + "%", "filter.study_push_status.equals": stxtstdstatus, "filter.study_date.ge": stxtstddatef, "filter.study_date.lt": stxtstddatet, "sort_by": "patient_name-asc" };
+        } else if (pname != "" && sex != "Sex" && stxtmrn != "" && stxtdob != "" && stxtaccno != "" && stxtstddesc != "" && stxtrefphy != "" && stxtstdstage == "" && stxtstdstatus != "" && stxtstddate != "" && stxtstddatef != "" && stxtstddatet != "" && stxtupddate != "" && stxtupddatef != "" && stxtupddatet != "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_name.like": pname, "filter.patient_sex.equals": sex, "filter.patientid.equals": stxtmrn, "filter.patient_birth_date.equals": stxtdob, "filter.accession_number.equals": stxtaccno, "filter.study_description.like": "%" + stxtstddesc + "%", "filter.referring_physician.like": "%" + stxtrefphy + "%", "filter.study_push_status.equals": stxtstdstatus, "filter.study_date.ge": stxtstddatef, "filter.study_date.lt": stxtstddatet, "filter.created.ge": stxtupddatef, "filter:created.lt": stxtupddatet, "sort_by": "patient_name-asc" };
+        } else if (pname != "" && sex != "Sex" && stxtmrn != "" && stxtdob != "" && stxtaccno != "" && stxtstddesc != "" && stxtrefphy != "" && stxtstdstage == "" && stxtstdstatus != "" && stxtstddate != "" && stxtstddatef != "" && stxtstddatet != "" && stxtupddate != "" && stxtupddatef != "" && stxtupddatet != "" && stxtstar != "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_name.like": pname, "filter.patient_sex.equals": sex, "filter.patientid.equals": stxtmrn, "filter.patient_birth_date.equals": stxtdob, "filter.accession_number.equals": stxtaccno, "filter.study_description.like": "%" + stxtstddesc + "%", "filter.referring_physician.like": "%" + stxtrefphy + "%", "filter.study_push_status.equals": stxtstdstatus, "filter.study_date.ge": stxtstddatef, "filter.study_date.lt": stxtstddatet, "filter.created.ge": stxtupddatef, "filter.created.lt": stxtupddatet, "filter.star.equals": stxtstar, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex != "Sex" && stxtmrn != "" && stxtdob != "" && stxtaccno != "" && stxtstddesc != "" && stxtrefphy != "" && stxtstdstage == "" && stxtstdstatus != "" && stxtstddate != "" && stxtstddatef != "" && stxtstddatet != "" && stxtupddate != "" && stxtupddatef != "" && stxtupddatet != "" && stxtstar != "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_sex.equals": sex, "filter.patientid.equals": stxtmrn, "filter.patient_birth_date.equals": stxtdob, "filter.accession_number.equals": stxtaccno, "filter.study_description.like": "%" + stxtstddesc + "%", "filter.referring_physician.like": "%" + stxtrefphy + "%", "filter.study_push_status.equals": stxtstdstatus, "filter.study_date.ge": stxtstddatef, "filter.study_date.lt": stxtstddatet, "filter.created.ge": stxtupddatef, "filter.created.lt": stxtupddatet, "filter.star.equals": stxtstar, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn != "" && stxtdob != "" && stxtaccno != "" && stxtstddesc != "" && stxtrefphy != "" && stxtstdstage == "" && stxtstdstatus != "" && stxtstddate != "" && stxtstddatef != "" && stxtstddatet != "" && stxtupddate != "" && stxtupddatef != "" && stxtupddatet != "" && stxtstar != "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patientid.equals": stxtmrn, "filter.patient_birth_date.equals": stxtdob, "filter.accession_number.equals": stxtaccno, "filter.study_description.like": "%" + stxtstddesc + "%", "filter.referring_physician.like": "%" + stxtrefphy + "%", "filter.study_push_status.equals": stxtstdstatus, "filter.study_date.ge": stxtstddatef, "filter.study_date.lt": stxtstddatet, "filter.created.ge": stxtupddatef, "filter.created.lt": stxtupddatet, "filter.star.equals": stxtstar, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob != "" && stxtaccno != "" && stxtstddesc != "" && stxtrefphy != "" && stxtstdstage == "" && stxtstdstatus != "" && stxtstddate != "" && stxtstddatef != "" && stxtstddatet != "" && stxtupddate != "" && stxtupddatef != "" && stxtupddatet != "" && stxtstar != "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_birth_date.equals": stxtdob, "filter.accession_number.equals": stxtaccno, "filter.study_description.like": "%" + stxtstddesc + "%", "filter.referring_physician.like": "%" + stxtrefphy + "%", "filter.study_push_status.equals": stxtstdstatus, "filter.study_date.ge": stxtstddatef, "filter.study_date.lt": stxtstddatet, "filter.created.ge": stxtupddatef, "filter.created.lt": stxtupddatet, "filter.star.equals": stxtstar, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno != "" && stxtstddesc != "" && stxtrefphy != "" && stxtstdstage == "" && stxtstdstatus != "" && stxtstddate != "" && stxtstddatef != "" && stxtstddatet != "" && stxtupddate != "" && stxtupddatef != "" && stxtupddatet != "" && stxtstar != "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.accession_number.equals": stxtaccno, "filter.study_description.like": "%" + stxtstddesc + "%", "filter.referring_physician.like": "%" + stxtrefphy + "%", "filter.study_push_status.equals": stxtstdstatus, "filter.study_date.ge": stxtstddatef, "filter.study_date.lt": stxtstddatet, "filter.created.ge": stxtupddatef, "filter.created.lt": stxtupddatet, "filter.star.equals": stxtstar, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc != "" && stxtrefphy != "" && stxtstdstage == "" && stxtstdstatus != "" && stxtstddate != "" && stxtstddatef != "" && stxtstddatet != "" && stxtupddate != "" && stxtupddatef != "" && stxtupddatet != "" && stxtstar != "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.study_description.like": "%" + stxtstddesc + "%", "filter.referring_physician.like": "%" + stxtrefphy + "%", "filter.study_push_status.equals": stxtstdstatus, "filter.study_date.ge": stxtstddatef, "filter.study_date.lt": stxtstddatet, "filter.created.ge": stxtupddatef, "filter.created.lt": stxtupddatet, "filter.star.equals": stxtstar, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy != "" && stxtstdstage == "" && stxtstdstatus != "" && stxtstddate != "" && stxtstddatef != "" && stxtstddatet != "" && stxtupddate != "" && stxtupddatef != "" && stxtupddatet != "" && stxtstar != "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.referring_physician.like": "%" + stxtrefphy + "%", "filter.study_push_status.equals": stxtstdstatus, "filter.study_date.ge": stxtstddatef, "filter.study_date.lt": stxtstddatet, "filter.created.ge": stxtupddatef, "filter.created.lt": stxtupddatet, "filter.star.equals": stxtstar, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate != "" && stxtstddatef != "" && stxtstddatet != "" && stxtupddate != "" && stxtupddatef != "" && stxtupddatet != "" && stxtstar != "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.study_date.ge": stxtstddatef, "filter.study_date.lt": stxtstddatet, "filter.created.ge": stxtupddatef, "filter.created.lt": stxtupddatet, "filter.star.equals": stxtstar, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate != "" && stxtupddatef != "" && stxtupddatet != "" && stxtstar != "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.created.ge": stxtupddatef, "filter.created.lt": stxtupddatet, "filter.star.equals": stxtstar, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar != "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.star.equals": stxtstar, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex != "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_sex.equals": sex, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn != "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patientid.equals": stxtmrn, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob != "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.patient_birth_date.equals": stxtdob, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno != "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.accession_number.equals": stxtaccno, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc != "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.study_description.like": "%" + stxtstddesc + "%", "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy != "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.referring_physician.like": "%" + stxtrefphy + "%", "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus != "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.study_push_status.equals": stxtstdstatus, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate != "" && stxtstddatef != "" && stxtstddatet != "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.study_date.ge": stxtstddatef, "filter.study_date.lt": stxtstddatet, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate != "" && stxtupddatef != "" && stxtupddatet != "" && stxtstar == "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.created.ge": stxtupddatef, "filter.created.lt": stxtupddatet, "sort_by": "patient_name-asc" };
+        } else if (pname == "" && sex == "Sex" && stxtmrn == "" && stxtdob == "" && stxtaccno == "" && stxtstddesc == "" && stxtrefphy == "" && stxtstdstage == "" && stxtstdstatus == "" && stxtstddate == "" && stxtstddatef == "" && stxtstddatet == "" && stxtupddate == "" && stxtupddatef == "" && stxtupddatet == "" && stxtstar != "" && stxtmodality == "" && stxtstdstatus == "") {
+            jsondata = { "sid": sid, "filter.star.equals": stxtstar, "sort_by": "patient_name-asc" };
+        }
+
+        // var uuid = id;
+        //  var strnum = str;
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/study/list',
+            dataType: "json",
+            type: "POST",
+            //contentType: 'application/json; charset=utf-8',            
+            data: jsondata,
+            async: false,
+            // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+            // processData: false,
+            cache: false,
+            success: function (data) {
+                var _html = "";
+                $.each(data, function (i, value) {
+
+                    //_html += i + "-" + value + "<br>";
+
+                    for (var i = 0; i < value.length; i++) {
+                        if (value[i].patient_name != undefined) {
+                            var dob = value[i].patient_birth_date;
+                            var dobnew = parseInt(dob);
+                            var stdtime = parseInt(value[i].study_time);
+                            var hours = (stdtime.toString().substr(0, 2));
+                            var minutes = (stdtime.toString().substr(2, 2));
+                            var ampm = hours >= 12 ? 'PM' : 'AM';
+                            hours = hours % 12;
+                            hours = hours ? hours : 12; // the hour '0' should be '12'
+                            minutes = minutes < 10 ? '0' + minutes : minutes;
+                            var strTime = hours + ':' + minutes + ' ' + ampm;
+                            _html += "<tr><td><input type='checkbox'></td><td><h4 id='h4pname" + i + "'>" + value[i].patient_name + "</h4><div class='adit_area'><a href='' data-toggle='modal' data-target='#auditModal' onClick='getPAuditDetail(" + i + ");'><i class='fa fa-file-text-o'></i></a> <a href='#' class='star_box'><span aria-hidden='true' class='glyphicon glyphicon-star'></span></a><input type='hidden' id='studylink" + i + "' value='" + value[i].viewer_link + "' /><a href='#' data-toggle='modal' data-target='#download' onclick='openDownlod(" + i + ");'><span aria-hidden='true' class='glyphicon glyphicon-download-alt'></span></a></div>";
+                            _html += "<p>(" + value[i].patient_sex + ") DOB " + dobnew.toString().substring(0, 4) + "-" + dobnew.toString().substr(4, 2) + "-" + dobnew.toString().substr(6, 2) + " MRN " + value[i].patientid + "</p></td>";
+                            _html += "<td><h4>" + value[i].study_description + "</h4><p>" + value[i].modality + " " + value[i].image_count + " Images    Acc  " + value[i].accession_number + "";
+                            _html += " RPhys:" + value[i].referring_physician + "</p><a href=''>Study Status</a></td><td><h4>" + (parseInt(value[i].study_date)).toString().substr(4, 2) + "-" + (parseInt(value[i].study_date)).toString().substr(6, 2) + "-" + (parseInt(value[i].study_date)).toString().substr(0, 4) + "</h4><p>" + strTime + "</p></td>";
+                            _html += "<td><h4>" + value[i].created + "</h4></td><td><div class='drop_list'><ul><li><div id='stdviewer" + i + "' class='dropdown' onclick='openViewer(" + i + ");'> <span class='glyphicon glyphicon-eye-open'></span> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <span class='glyphicon glyphicon-triangle-bottom myset'></span> </a>";
+                            _html += "<ul class='dropdown-menu' aria-labelledby='dLabel'><li><a href='#'>Open in New Tab</a></li><li><a href='#'>Open with Simple Viewer</a></li></ul></div></li><li><div class='dropdown'> <span aria-hidden='true' class='glyphicon glyphicon-circle-arrow-down'></span> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <span class='glyphicon glyphicon-triangle-bottom myset'></span> </a>";
+                            _html += "<ul class='dropdown-menu' aria-labelledby='dLabel'><li><a href='#'>Download Viewer</a></li><li><a href='#'>Download ISO</a></li></ul></div></li><li class='anchor_link'><div class='dropdown'> <input type='hidden' id='stdid" + i + "' value='" + value[i].uuid + "'/>  <input type='hidden' id='stduid" + i + "' value='" + value[i].study_uid + "'/> <input type='hidden' id='phi_namespace" + i + "' value='" + value[i].phi_namespace + "'/>  <input type='hidden' id='accession_number" + i + "' value='" + value[i].accession_number + "'/><input type='hidden' id='sharedob" + i + "' value='" + value[i].patient_birth_date + "'/> <input type='hidden' id='shareaccno" + i + "' value='" + value[i].accession_number + "'/> <input type='hidden' id='storage_namespace" + i + "' value='" + value[i].storage_namespace + "'/> <input type='hidden' id='engine_fqdn" + i + "' value='" + value[i].engine_fqdn + "'/>  <a href='' onClick='getPdata(" + i + ");' id='dLabel' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span aria-hidden='true' class='glyphicon glyphicon-pencil'></span></a>";
+                            _html += "<ul class='dropdown-menu edit_dropdown' aria-labelledby='dLabel'><form class='form-inline'>";
+                            _html += "<div class='form-group'><input type='text' id='pname" + i + "' class='form-control' placeholder='Patient Name'><input type='text' id='pdob" + i + "' class='form-control' placeholder='Patient DOB'>";
+                            _html += "<select class='form-control'><option>Sex</option><option>M</option><option>F</option></select><input type='text' id='accno" + i + "' class='form-control' placeholder='Study Accession Number'>";
+                            _html += "<input type='text' id='stddesc" + i + "' class='form-control' placeholder='Study Description'><input type='text' id='mrn" + i + "' class='form-control' placeholder='Patient MRN'>";
+                            _html += "<input type='text' id='stddate" + i + "' class='form-control' placeholder='Study Date (mm-dd-yy)'><input type='text' id='rphy" + i + "' class='form-control' placeholder='Referring Physician'>";
+                            _html += "<select class='form-control'><option>Study Modality</option><option>MR</option><option>US</option><option>CS</option></select>";
+                            _html += "<select class='form-control'><option>Study Status</option><option>Signed</option><option>UnSigned</option></select>";
+                            _html += "</div><div class='form-group'><button type='submit' class='btn btn-default search' onClick='UpdatePInfo(" + i + ");'>Save</button><button type='submit' class='btn btn-default'>Cancel</button>";
+                            _html += "</div></form></ul></div></li><li class='anchor_link'><a href=''><span aria-hidden='true' class='glyphicon glyphicon-file'></span></a></li>";
+                            _html += "<li class='report_link'  ><div class='dropdown'> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' onClick='getReportList(" + i + ");'> Reports <span class='glyphicon glyphicon-triangle-bottom myset'></span></a>";
+                            _html += "<ul class='dropdown-menu edit_dropdown' aria-labelledby='dLabel'><div id='reportlist" + i + "'></div><div class='attache_div'><h2>Attach report</h2><div class='form-group'><input type='file' id='reportfile" + i + "'></div><div class='form-group'><button type='submit' class='btn btn-default' onclick='return uploadReport(" + i + ");'>Upload</button>";
+                            _html += "</div></div></ul></div></li></ul></div></td></tr>";
+                        }
+                    }
+                });
+
+                $('#newtr').html(_html);
+
+            },
+            error: function (xhr) {
+                //  var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+        return false;
+    }
+
+
+
+    //share to destination
+    function ShareDestination() {
+
+    
+
+        var flagstatus = 0;
+        var sid = '@session.UserSession.sid';
+        var studyuuid = "";
+        //alert("hi");
+        var shareid = 0;
+        alert("sid" + sid);
+       // var sharemsg = $('#txtsharemsg').val();
+        $('#sharedname').find('li').each(function () {
+            studyuuid = $('#sharestdid' + shareid + '').val();
+            var destiuuid = "";
+            var i = 0;
+            alert('stdid='+studyuuid);
+            $('#sharedestination').find('div').each(function () {
+                var row = $(this);
+                if (row.find('input[type="checkbox"]').is(':checked')) {
+
+                    destiuuid = $('#destiuid' + i + '').val();
+                    //studyuuid = $('#stdid' + i + '').val();
+                    alert('destinationid = '+destiuuid)
+                    $.ajax({
+                        url: 'https://access.dicomgrid.com/api/v3/study/push/hl7',
+                        dataType: "json",
+                        type: "POST",
+                        //contentType: 'application/json; charset=utf-8',
+                        data: { "sid": sid, "uuid": studyuuid, "destination_id": destiuuid },
+                        async: false,
+                        // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+                        // processData: false,
+                        cache: false,
+                        success: function (data) {
+                            alert('Hello');
+                            flagstatus = 1;
+                        },
+                        error: function (xhr) {
+                            //  var _html = "";
+                            $.each(xhr, function (i, value) {
+                                //_html += i + "-" + value + "<br>";
+
+
+                            });
+                            // $('#tblEditSession').html(_html);
+                        }
+                    });
+
+                }
+                i++;
+            });
+
+            if (flagstatus != 0) {
+                $('#destimodalclose').attr('data-dismiss', 'modal');
+                alert('Study Send Successfully');
+            }
+
+        });
+
+
+    }
+
+
+    //study share option
+    function ShareStudy() {
+
+        var flagstatus = 0;
+        var sid = '@session.UserSession.sid';
+        var studyuuid = "";
+        //alert("hi");
+        var shareid = 0;
+        var sharemsg = $('#txtsharemsg').val();
+        $('#sharepname').find('li').each(function () {
+            studyuuid = $('#sharestdid' + shareid + '').val();
+            var orguuid = "";
+            var i = 0;
+            $('#shareorganization').find('div').each(function () {
+                var row = $(this);
+                if (row.find('input[type="checkbox"]').is(':checked')) {
+
+                    orguuid = $('#orguuid' + i + '').val();
+                    //studyuuid = $('#stdid' + i + '').val();
+
+                    $.ajax({
+                        url: 'https://access.dicomgrid.com/api/v3/study/share',
+                        dataType: "json",
+                        type: "POST",
+                        //contentType: 'application/json; charset=utf-8',
+                        data: { "sid": sid, "uuid": studyuuid, "account_id": orguuid, "message": sharemsg },
+                        async: false,
+                        // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+                        // processData: false,
+                        cache: false,
+                        success: function (data) {
+                            flagstatus = 1;
+                        },
+                        error: function (xhr) {
+                            //  var _html = "";
+                            $.each(xhr, function (i, value) {
+                                //_html += i + "-" + value + "<br>";
+
+
+                            });
+                            // $('#tblEditSession').html(_html);
+                        }
+                    });
+
+                }
+                i++;
+            });
+
+            var locuuid = "";
+            var j = 0;
+            $('#sharelocation').find('div').each(function () {
+                var row = $(this);
+                if (row.find('input[type="checkbox"]').is(':checked')) {
+
+                    locuuid = $('#locuuid' + j + '').val();
+                    //studyuuid = $('#stdid' + j + '').val();
+
+                    $.ajax({
+                        url: 'https://access.dicomgrid.com/api/v3/study/share',
+                        dataType: "json",
+                        type: "POST",
+                        //contentType: 'application/json; charset=utf-8',
+                        data: { "sid": sid, "uuid": studyuuid, "location_id": locuuid, "message": sharemsg },
+                        async: false,
+                        // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+                        // processData: false,
+                        cache: false,
+                        success: function (data) {
+                            flagstatus = 1;
+                        },
+                        error: function (xhr) {
+                            //  var _html = "";
+                            $.each(xhr, function (i, value) {
+                                //_html += i + "-" + value + "<br>";
+
+
+                            });
+                            // $('#tblEditSession').html(_html);
+                        }
+                    });
+
+
+                }
+                j++;
+            });
+
+            var grpuuid = "";
+            var k = 0;
+            $('#sharegroup').find('div').each(function () {
+                var row = $(this);
+                if (row.find('input[type="checkbox"]').is(':checked')) {
+
+                    grpuuid = $('#grpuuid' + k + '').val();
+                    //studyuuid = $('#stdid' + k + '').val();
+
+
+                    $.ajax({
+                        url: 'https://access.dicomgrid.com/api/v3/study/share',
+                        dataType: "json",
+                        type: "POST",
+                        //contentType: 'application/json; charset=utf-8',
+                        data: { "sid": sid, "uuid": studyuuid, "group_id": grpuuid, "message": sharemsg },
+                        async: false,
+                        // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+                        // processData: false,
+                        cache: false,
+                        success: function (data) {
+                            flagstatus = 1;
+                        },
+                        error: function (xhr) {
+                            //  var _html = "";
+                            $.each(xhr, function (i, value) {
+                                //_html += i + "-" + value + "<br>";
+
+
+                            });
+                            // $('#tblEditSession').html(_html);
+                        }
+                    });
+
+
+                }
+                k++;
+            });
+
+            var usruuid = "";
+            var l = 0;
+            $('#shareuser').find('div').each(function () {
+                var row = $(this);
+                if (row.find('input[type="checkbox"]').is(':checked')) {
+
+                    usruuid = $('#usruuid' + l + '').val();
+                    //studyuuid = $('#stdid' + l + '').val();
+
+                    $.ajax({
+                        url: 'https://access.dicomgrid.com/api/v3/study/share',
+                        dataType: "json",
+                        type: "POST",
+                        //contentType: 'application/json; charset=utf-8',
+                        data: { "sid": sid, "uuid": studyuuid, "user_id": usruuid, "message": sharemsg },
+                        async: false,
+                        // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+                        // processData: false,
+                        cache: false,
+                        success: function (data) {
+                            flagstatus = 1;
+                        },
+                        error: function (xhr) {
+                            //  var _html = "";
+                            $.each(xhr, function (i, value) {
+                                //_html += i + "-" + value + "<br>";
+
+
+                            });
+                            // $('#tblEditSession').html(_html);
+                        }
+                    });
+
+
+
+
+                }
+                l++;
+            });
+
+
+            var txtsharecode = $('#txtsharecode').val();
+            if (txtsharecode != "") {
+
+                $.ajax({
+                    url: 'https://access.dicomgrid.com/api/v3/study/share',
+                    dataType: "json",
+                    type: "POST",
+                    //contentType: 'application/json; charset=utf-8',
+                    data: { "sid": sid, "uuid": studyuuid, "share_code": txtsharecode, "message": sharemsg },
+                    async: false,
+                    // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+                    // processData: false,
+                    cache: false,
+                    success: function (data) {
+                        flagstatus = 1;
+                    },
+                    error: function (xhr) {
+                        //  var _html = "";
+                        $.each(xhr, function (i, value) {
+                            //_html += i + "-" + value + "<br>";
+
+
+                        });
+                        // $('#tblEditSession').html(_html);
+                    }
+                });
+
+
+            }
+            var txtemail = $('#txtemail').val();
+            if (txtemail != "") {
+
+                $.ajax({
+                    url: 'https://access.dicomgrid.com/api/v3/study/share',
+                    dataType: "json",
+                    type: "POST",
+                    //contentType: 'application/json; charset=utf-8',
+                    data: { "sid": sid, "uuid": studyuuid, "email": txtemail, "message": sharemsg },
+                    async: false,
+                    // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+                    // processData: false,
+                    cache: false,
+                    success: function (data) {
+                        flagstatus = 1;
+                    },
+                    error: function (xhr) {
+                        //  var _html = "";
+                        $.each(xhr, function (i, value) {
+                            //_html += i + "-" + value + "<br>";
+
+
+                        });
+                        // $('#tblEditSession').html(_html);
+                    }
+                });
+
+
+            }
+
+            shareid++;
+        });
+        if (flagstatus != 0) {
+            $('#sharemodalclose').attr('data-dismiss', 'modal');
+            alert('Study Share Successfully');
+        }
+    }
+
+    function checkSeletion(str) {
+
+        var i = 0;
+        var j = -1;
+        var _htmlsharep = "";
+        var shareuuid = "";
+
+        var type = "account";
+
+        $('#chklist').find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+
+                _htmlsharep += "<li>" + $('#h4pname' + j + '').html() + " (DOB - " + $('#sharedob' + j + '').val() + " ), Accession " + $('#shareaccno' + j + '').val() + "<input type='hidden' id='sharestdid" + j + "' value='" + $('#stdid' + j + '').val() + "'/></li>";
+                shareuuid = $('#stdid' + j + '').val();
+                i++;
+            }
+            j++;
+        });
+
+        if(str == "share"){
+            $('#sharepname').html(_htmlsharep);
+
+
+            if (i > 0) {
+                $('#modalshare').attr('data-toggle', 'modal');
+                $('#modalshare').attr('data-target', '#shareModal');
+            } else {
+                $('#modalshare').attr('data-toggle', '');
+                $('#modalshare').attr('data-target', '');
+                alert("Please Select Any Case");
+                return false;
+            }
+
+            getShareLocations(shareuuid, type);
+        }else if(str == "desti"){
+            $('#sharedname').html(_htmlsharep);
+            if (i > 0) {
+                $('#modaldestination').attr('data-toggle', 'modal');
+                $('#modaldestination').attr('data-target', '#destinationModal');
+            } else {
+                $('#modaldestination').attr('data-toggle', '');
+                $('#modaldestination').attr('data-target', '');
+                alert("Please Select Any Case");
+                return false;
+            }
+
+            getDestinations();
+            
+        }
+    }
+    //get All the destinations
+    function getDestinations() {
+
+        var sid = '@session.UserSession.sid';
+        var accountid = $('#txtorgid').val();
+//alert(sid + "  " + accountid )
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/destination/list',
+            dataType: "json",
+            type: "POST",
+            //contentType: 'application/json; charset=utf-8',
+            data: { "sid": sid, "account_id": accountid },
+            async: false,
+            // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+            // processData: false,
+            cache: false,
+            success: function (data) {
+                var _html = "";
+                
+                //_html += i + "-" + value + "<br>";
+
+                for (var i = 0; i < data.destinations.length; i++) {
+                    _html += "<div class='checkbox'><label><input type='checkbox'>" + data.destinations[i].aetitle + "</label><input id='destiuid" + i + "' type='hidden' value='" + data.destinations[i].uuid + "' /></div>";
+                }
+
+               // alert('Hello');
+                    $('#sharedestination').html(_html);
+               
+
+
+            },
+            error: function (xhr) {
+                //  var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+    }
+    //get all the share location 
+    function getShareLocations(shareuuid, type) {
+
+        var sharesid = '@session.UserSession.sid';
+        //alert(sharesid + "  " + shareuuid + "  " + type);
+
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/study/share/who',
+            dataType: "json",
+            type: "POST",
+            //contentType: 'application/json; charset=utf-8',
+            data: { "sid": sharesid, "uuid": shareuuid, "type": type },
+            async: false,
+            // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+            // processData: false,
+            cache: false,
+            success: function (data) {
+                var _html = "";
+
+                //_html += i + "-" + value + "<br>";
+
+                for (var i = 0; i < data.shares.length; i++) {
+                    _html += "<div class='checkbox'><label><input type='checkbox'>" + data.shares[i].name + "</label><input id='orguuid" + i + "' type='hidden' value='" + data.shares[i].uuid + "' /></div>";
+                }
+
+                if (type == "account") {
+                    $('#shareorganization').html(_html);
+                }
+
+
+            },
+            error: function (xhr) {
+                //  var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/study/share/who',
+            dataType: "json",
+            type: "POST",
+            //contentType: 'application/json; charset=utf-8',
+            data: { "sid": sharesid, "uuid": shareuuid, "type": "location" },
+            async: false,
+            // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+            // processData: false,
+            cache: false,
+            success: function (data) {
+                var _html = "";
+
+                //_html += i + "-" + value + "<br>";
+
+                for (var i = 0; i < data.shares.length; i++) {
+                    _html += "<div class='checkbox'><label><input type='checkbox'>" + data.shares[i].name + "</label><input id='locuuid" + i + "' type='hidden' value='" + data.shares[i].uuid + "'/></div>";
+                }
+
+
+                $('#sharelocation').html(_html);
+
+
+
+            },
+            error: function (xhr) {
+                //  var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/study/share/who',
+            dataType: "json",
+            type: "POST",
+            //contentType: 'application/json; charset=utf-8',
+            data: { "sid": sharesid, "uuid": shareuuid, "type": "group" },
+            async: false,
+            // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+            // processData: false,
+            cache: false,
+            success: function (data) {
+                var _html = "";
+
+                //_html += i + "-" + value + "<br>";
+
+                for (var i = 0; i < data.shares.length; i++) {
+                    _html += "<div class='checkbox'><label><input type='checkbox'>" + data.shares[i].name + "</label><input id='grpuuid" + i + "' type='hidden' value='" + data.shares[i].uuid + "'/></div>";
+                }
+
+
+                $('#sharegroup').html(_html);
+
+
+
+            },
+            error: function (xhr) {
+                //  var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/study/share/who',
+            dataType: "json",
+            type: "POST",
+            //contentType: 'application/json; charset=utf-8',
+            data: { "sid": sharesid, "uuid": shareuuid, "type": "user" },
+            async: false,
+            // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+            // processData: false,
+            cache: false,
+            success: function (data) {
+                var _html = "";
+
+                //_html += i + "-" + value + "<br>";
+
+                for (var i = 0; i < data.shares.length; i++) {
+                    _html += "<div class='checkbox'><label><input type='checkbox'>" + data.shares[i].name + "</label><input id='usruuid" + i + "' type='hidden' value='" + data.shares[i].uuid + "'/></div>";
+                }
+
+
+                $('#shareuser').html(_html);
+
+
+            },
+            error: function (xhr) {
+                //  var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+
+
+
+    }
+
+    $(document).ready(function () {
+
+
+        $(function () {
+
+            $('#chkveg').multiselect({
+
+                includeSelectAllOption: true
+            });
+
+            $('#btnget').click(function () {
+
+                alert($('#chkveg').val());
+            });
+        });
+
+
+        $('#allonshare').click(function (e) {
+            var table = $(e.target).closest('table');
+            $('#onshare input:checkbox', table).prop('checked', this.checked);
+        });
+
+        $('#allapprreq').click(function (e) {
+            var table = $(e.target).closest('table');
+            $('#allapprreq input:checkbox', table).prop('checked', this.checked);
+        });
+
+        $('#allonupload').click(function (e) {
+            var table = $(e.target).closest('table');
+            $('#allonupload input:checkbox', table).prop('checked', this.checked);
+        });
+
+        $('#allonharvest').click(function (e) {
+            var table = $(e.target).closest('table');
+            $('#allonharvest input:checkbox', table).prop('checked', this.checked);
+        }); 
+
+        $('#onuploadfail').click(function (e) {
+            var table = $(e.target).closest('table');
+            $('#onuploadfail input:checkbox', table).prop('checked', this.checked);
+        });
+
+        $('#allreporattach').click(function (e) {
+            var table = $(e.target).closest('table');
+            $('#allreporattach input:checkbox', table).prop('checked', this.checked);
+        });
+
+        $('#alllinkedused').click(function (e) {
+            var table = $(e.target).closest('table');
+            $('#alllinkedused input:checkbox', table).prop('checked', this.checked);
+        }); 
+
+        $('#allmylinked').click(function (e) {
+            var table = $(e.target).closest('table');
+            $('#allmylinked input:checkbox', table).prop('checked', this.checked);
+        }); 
+
+        $('#stdstchange').click(function (e) {
+            var table = $(e.target).closest('table');
+            $('#stdstchange input:checkbox', table).prop('checked', this.checked);
+        }); 
+
+        $('.star_box').click(function () {
+            $(this).next('.star_box').slideToggle('500');
+            $(this).find('span').toggleClass('glyphicon glyphicon-star glyphicon glyphicon-star half')
+        });
+
+        $('#selectAll').click(function (e) {
+            var table = $(e.target).closest('table');
+            $('td input:checkbox', table).prop('checked', this.checked);
+        });
+
+        $('#txtorganization').keyup(function () {
+            var valThis = $(this).val();
+            $('#shareorganization>div').each(function () {
+                var text = $(this).text().toLowerCase();
+                (text.indexOf(valThis) == 0) ? $(this).show() : $(this).hide();
+            });
+        });
+
+        $('#txtlocation').keyup(function () {
+            var valThis = $(this).val();
+            $('#sharelocation>div').each(function () {
+                var text = $(this).text().toLowerCase();
+                (text.indexOf(valThis) == 0) ? $(this).show() : $(this).hide();
+            });
+        });
+
+        $('#txtgroup').keyup(function () {
+            var valThis = $(this).val();
+            $('#sharegroup>div').each(function () {
+                var text = $(this).text().toLowerCase();
+                (text.indexOf(valThis) == 0) ? $(this).show() : $(this).hide();
+            });
+        });
+
+        $('#txtuser').keyup(function () {
+            var valThis = $(this).val();
+            $('#shareuser>div').each(function () {
+                var text = $(this).text().toLowerCase();
+                (text.indexOf(valThis) == 0) ? $(this).show() : $(this).hide();
+            });
+        });
+
+        $('#txtdestination').keyup(function () {
+            var valThis = $(this).val();
+            $('#sharedestination>div').each(function () {
+                var text = $(this).text().toLowerCase();
+                (text.indexOf(valThis) == 0) ? $(this).show() : $(this).hide();
+            });
+        });
+
+    });
+
+
+
+
+    function GetAllCase() {
+        // alert('Test');
+        //alert(str);
+
+        var sid = '@session.UserSession.sid';
+        //  var strnum = str;
+        //var uuid =id;
+        //alert("" + uuid);
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/study/list',
+            dataType: "json",
+            type: "POST",
+            //contentType: 'application/json; charset=utf-8',
+            data: { "sid": sid, "sort_by": "patient_name-asc" },
+            async: false,
+           
+            // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+            // processData: false,
+            cache: false,
+            success: function (data) {
+                var _html = "";
+                $.each(data, function (i, value) {
+
+                    //_html += i + "-" + value + "<br>";
+
+                    for (var i = 0; i < value.length; i++) {
+
+                        if (value[i].patient_name != undefined) {
+
+                            var dob = value[i].patient_birth_date;
+                            var dobnew = parseInt(dob);
+                            var stdtime = parseInt(value[i].study_time);
+                            var hours = (stdtime.toString().substr(0, 2));
+                            var minutes = (stdtime.toString().substr(2, 2));
+                            var ampm = hours >= 12 ? 'PM' : 'AM';
+                            hours = hours % 12;
+                            hours = hours ? hours : 12; // the hour '0' should be '12'
+                            minutes = minutes < 10 ? '0' + minutes : minutes;
+                            var strTime = hours + ':' + minutes + ' ' + ampm;
+                            _html += "<tr><td><input  type='checkbox'  /></td><td><h4 id='h4pname" + i + "'>" + value[i].patient_name + "</h4><div class='adit_area'><a href='' data-toggle='modal' data-target='#auditModal' onClick='getPAuditDetail(" + i + ");'><i class='fa fa-file-text-o'></i></a><a href='#' class='star_box'><span aria-hidden='true' class='glyphicon glyphicon-star'></span></a><input type='hidden' id='studylink" + i + "' value='" + value[i].viewer_link + "' /> <a href='#' data-toggle='modal' data-target='#download' onclick='openDownlod(" + i + ");'><span aria-hidden='true' class='glyphicon glyphicon-download-alt'></span></a></div>";
+                            _html += "<p>(" + value[i].patient_sex + ") DOB " + dobnew.toString().substring(0, 4) + "-" + dobnew.toString().substr(4, 2) + "-" + dobnew.toString().substr(6, 2) + " MRN " + value[i].patientid + "</p></td>";
+                            _html += "<td><h4>" + value[i].study_description + "</h4><p>" + value[i].modality + " " + value[i].image_count + " Images    Acc  " + value[i].accession_number + "";
+                            _html += " RPhys:" + value[i].referring_physician + "</p><a href=''>Study Status</a></td><td><h4>" + (parseInt(value[i].study_date)).toString().substr(4, 2) + "-" + (parseInt(value[i].study_date)).toString().substr(6, 2) + "-" + (parseInt(value[i].study_date)).toString().substr(0, 4) + "</h4><p>" + strTime + "</p></td>";
+                            _html += "<td><h4>" + value[i].created + "</h4></td><td><div class='drop_list'><ul><li><div id='stdviewer" + i + "' class='dropdown' onclick='openViewer(" + i + ");'> <span class='glyphicon glyphicon-eye-open'></span> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <span class='glyphicon glyphicon-triangle-bottom myset'></span> </a>";
+                            _html += "<ul class='dropdown-menu' aria-labelledby='dLabel'><li><a href='#'>Open in New Tab</a></li><li><a href='#'>Open with Simple Viewer</a></li></ul></div></li><li><div class='dropdown'> <span aria-hidden='true' class='glyphicon glyphicon-circle-arrow-down'></span> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <span class='glyphicon glyphicon-triangle-bottom myset'></span> </a>";
+                            _html += "<ul class='dropdown-menu' aria-labelledby='dLabel'><li><a href='#'>Download Viewer</a></li><li><a href='#'>Download ISO</a></li></ul></div></li><li class='anchor_link'><div class='dropdown'> <input type='hidden' id='stdid" + i + "' value='" + value[i].uuid + "'/> <input type='hidden' id='stduid" + i + "' value='" + value[i].study_uid + "'/> <input type='hidden' id='phi_namespace" + i + "' value='" + value[i].phi_namespace + "'/> <input type='hidden' id='accession_number" + i + "' value='" + value[i].accession_number + "'/> <input type='hidden' id='storage_namespace" + i + "' value='" + value[i].storage_namespace + "'/> <input type='hidden' id='sharedob" + i + "' value='" + value[i].patient_birth_date + "'/> <input type='hidden' id='shareaccno" + i + "' value='" + value[i].accession_number + "'/> <input type='hidden' id='engine_fqdn" + i + "' value='" + value[i].engine_fqdn + "'/>  <a href='' onClick='getPdata(" + i + ");' id='dLabel' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span aria-hidden='true' class='glyphicon glyphicon-pencil'></span></a>";
+                            _html += "<ul class='dropdown-menu edit_dropdown' aria-labelledby='dLabel'><form class='form-inline'>";
+                            _html += "<div class='form-group'><input type='text' id='pname" + i + "' class='form-control' placeholder='Patient Name'><input type='text' id='pdob" + i + "' class='form-control' placeholder='Patient DOB'>";
+                            _html += "<select class='form-control'><option>Sex</option><option>M</option><option>F</option></select><input type='text' id='accno" + i + "' class='form-control' placeholder='Study Accession Number'>";
+                            _html += "<input type='text' id='stddesc" + i + "' class='form-control' placeholder='Study Description'><input type='text' id='mrn" + i + "' class='form-control' placeholder='Patient MRN'>";
+                            _html += "<input type='text' id='stddate" + i + "' class='form-control' placeholder='Study Date (mm-dd-yy)'><input type='text' id='rphy" + i + "' class='form-control' placeholder='Referring Physician'>";
+                            _html += "<select class='form-control'><option>Study Modality</option><option>MR</option><option>US</option><option>CS</option></select>";
+                            _html += "<select class='form-control'><option>Study Status</option><option>Signed</option><option>UnSigned</option></select>";
+                            _html += "</div><div class='form-group'><button type='submit' class='btn btn-default search' onClick='UpdatePInfo(" + i + ");'>Save</button><button type='submit' class='btn btn-default'>Cancel</button>";
+                            _html += "</div></form></ul></div></li><li class='anchor_link'><a href=''><span aria-hidden='true' class='glyphicon glyphicon-file'></span></a></li>";
+                            _html += "<li class='report_link' ><div class='dropdown'> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' onClick='getReportList(" + i + ");'> Reports <span class='glyphicon glyphicon-triangle-bottom myset'></span></a>";
+                            _html += "<ul class='dropdown-menu edit_dropdown' aria-labelledby='dLabel'><div id='reportlist"+i+"'></div><div class='attache_div'><h2>Attach report</h2><div class='form-group'><input type='file' id='reportfile" + i + "'></div><div class='form-group'><button type='submit' class='btn btn-default' onclick='return uploadReport(" + i + ");'>Upload</button>";
+                            _html += "</div></div></ul></div></li></ul></div></td></tr>";
+                        }
+                    }
+                });
+
+                $('#newtr').html(_html);
+
+            },
+            error: function (xhr) {
+                //  var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+    }
+
+    //open audit train info
+
+    function openAuditTr(id) {
+        $(".plus_btn" + id).closest("tr").next().toggle();
+    }
+
+    //get list of audit trail
+    function getPAuditDetail(id) {
+        var sid = '@session.UserSession.sid';
+        var studyuid = $('#stdid' + id).val();
+        var stduid = $('#stduid' + id).val();
+        var phi_namespace = $('#phi_namespace' + id).val();
+        var storage_namespace = $('#storage_namespace' + id).val();
+        var engine_fqdn = $('#engine_fqdn' + id).val();
+        $('#STORAGE_HOST').html(engine_fqdn);
+        $('#STORAGE_NS').html(storage_namespace);
+        $('#STUDY_UID').html(stduid);
+        $('#PHI_NS').html(phi_namespace);
+        $('#STUDY_UUID').html(studyuid);
+
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/audit/object',
+            dataType: "json",
+            type: "POST",
+            //contentType: 'application/json; charset=utf-8',
+            data: { "sid": sid, "uuid": studyuid },
+            async: false,
+            // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+            // processData: false,
+            cache: false,
+            success: function (data) {
+                var _html = "";
+
+                for (var i = 0; i < data.events.length; i++) {
+
+                    _html += "<tr><td>";
+                    _html += "" + data.events[i].type;
+                    if (data.events[i].type == "Study_share") {
+                        _html += "<span class='plus_btn" + i + "'><a href='#' onclick='openAuditTr("+i+");'><i class='fa fa-plus-circle' aria-hidden='true'></i></a></span>";
+                       }
+                    _html += "</td><td>" + data.events[i].when + "</td><td>" + data.events[i].who + "</td></tr>";
+                    if (data.events[i].type == "Study_share") {
+
+                        _html += "<tr class='hiddne'><td colspan='3'><div class='collepse_div'><table class='table_in'><thead>";
+                        _html += "<tr><th>field</th><th>old</th><th>new</th></tr></thead><tbody><tr><td>Shared</td><td>with</td><td>" + data.events[i].with + "</td></tr></tbody></table></div></td></tr>";
+
+                    }
+                }
+
+                $('#auditfor').html(_html);
+
+            },
+            error: function (xhr) {
+                //  var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+    }
+
+    //get patient information
+    function getPdata(count) {
+
+        var sid = '@session.UserSession.sid';
+        var studyuid = $('#stdid' + count).val();
+        //var uuid = '@session.UserSession.uuid';
+        //alert("Hello Pdata" + id + "count = " + count + studyuid);
+
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/study/get',
+            dataType: "json",
+            type: "POST",
+            data: { "sid": sid, "uuid": studyuid },
+            async: false,
+            cache: false,
+            success: function (data) {
+
+
+                $('#pname' + count).val(data.patient_name);
+                $('#pdob' + count).val(data.patient_birth_date);
+                $('#accno' + count).val(data.accession_number);
+                $('#stddesc' + count).val(data.study_description);
+                $('#mrn' + count).val(data.patientid);
+                $('#stddate' + count).val(data.study_date);
+                $('#rphy' + count).val(data.referring_physician);
+
+
+
+            },
+            error: function (xhr) {
+                var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+                    // $('#newtr').html(value);
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+
+
+    }
+
+
+    function UpdatePInfo(count) {
+
+        var sid = '@session.UserSession.sid';
+        var studyuid = $('#stdid' + count).val();
+        var uuid = '@session.UserSession.uuid';
+        var pname = $('#pname' + count).val();
+        var pdob = $('#pdob' + count).val();
+        var accno = $('#accno' + count).val();
+        var stddesc = $('#stddesc' + count).val();
+        var mrn = $('#mrn' + count).val();
+        var stddate = $('#stddate' + count).val();
+        var rphy = $('#rphy' + count).val();
+        //alert("Hello Pdata" + id + "count = " + count + studyuid);
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/study/set',
+            dataType: "json",
+            type: "POST",
+            data: { "sid": sid, "study_id": studyuid, "patient_name": pname, "patientid": mrn, "patient_birth_date": pdob, "study_description": stddesc, "accession_number": accno, "study_date": stddate, "referring_physician": rphy },
+            async: false,
+            cache: false,
+            success: function (data) {
+
+                var _html = "";
+                $.each(data, function (i, value) {
+                    _html += i + "-" + value + "<br>";
+                    // $('#newtr').html(value);
+
+                });
+                $('#newtr').html(_html);
+
+            },
+            error: function (xhr) {
+                var _html = "";
+                $.each(xhr, function (i, value) {
+                    _html += i + "-" + value + "<br>";
+                    // $('#newtr').html(value);
+
+                });
+                $('#newtr').html(_html);
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+    }
+
+    function filterByName() {
+
+        var pname = $('#txtpname').val();
+        var uuid = $('#txtuuid').val();
+        var sid = '@session.UserSession.sid';
+        pname = pname + "%";
+        // var uuid = id;
+        //  var strnum = str;
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/study/list',
+            dataType: "json",
+            type: "POST",
+            //contentType: 'application/json; charset=utf-8',
+            data: { "sid": sid, "filter.phi_namespace.equals": uuid, "filter.patient_name.like": pname, "sort_by": "patient_name-asc" },
+            async: false,
+            // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+            // processData: false,
+            cache: false,
+            success: function (data) {
+                var _html = "";
+                $.each(data, function (i, value) {
+
+                    //_html += i + "-" + value + "<br>";
+
+                    for (var i = 0; i < value.length; i++) {
+                        if (value[i].patient_name != undefined) {
+                            var dob = value[i].patient_birth_date;
+                            var dobnew = parseInt(dob);
+                            var stdtime = parseInt( value[i].study_time);
+                            var hours = (stdtime.toString().substr(0,2));
+                            var minutes = (stdtime.toString().substr(2, 2));
+                            var ampm = hours >= 12 ? 'pm' : 'am';
+                            hours = hours % 12;
+                            hours = hours ? hours : 12; // the hour '0' should be '12'
+                            minutes = minutes < 10 ? '0' + minutes : minutes;
+                            var strTime = hours + ':' + minutes + ' ' + ampm;
+
+                            _html += "<tr><td><input type='checkbox'></td><td><h4 id='h4pname" + i + "'>" + value[i].patient_name + "</h4><div class='adit_area'><a href='' data-toggle='modal' data-target='#auditModal' onClick='getPAuditDetail(" + i + ");'><i class='fa fa-file-text-o'></i></a><a href='#' class='star_box'><span aria-hidden='true' class='glyphicon glyphicon-star'></span></a><input type='hidden' id='studylink" + i + "' value='" + value[i].viewer_link + "' /> <a href='#' data-toggle='modal' data-target='#download' onclick='openDownlod(" + i + ");'><span aria-hidden='true' class='glyphicon glyphicon-download-alt'></span></a></div>";
+                            _html += "<p>(" + value[i].patient_sex + ") DOB " + dobnew.toString().substring(0, 4) + "-" + dobnew.toString().substr(4, 2) + "-" + dobnew.toString().substr(6, 2) + " MRN " + value[i].patientid + "</p></td>";
+                            _html += "<td><h4>" + value[i].study_description + "</h4><p>" + value[i].modality + " " + value[i].image_count + " Images    Acc  " + value[i].accession_number + "";
+                            _html += " RPhys:" + value[i].referring_physician + "</p><a href=''>Study Status</a></td><td><h4>" + (parseInt(value[i].study_date)).toString().substr(4, 2) + "-" + (parseInt(value[i].study_date)).toString().substr(6, 2) + "-" + (parseInt(value[i].study_date)).toString().substr(0, 4) + "</h4><p>" + strTime + "</p></td>";
+                            _html += "<td><h4>" + value[i].created + "</h4></td><td><div class='drop_list'><ul><li><div class='dropdown' id='stdviewer" + i + "' onclick='openViewer(" + i + ");'>  <span class='glyphicon glyphicon-eye-open'></span> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <span class='glyphicon glyphicon-triangle-bottom myset'></span> </a>";
+                            _html += "<ul class='dropdown-menu' aria-labelledby='dLabel'><li><a href='#'>Open in New Tab</a></li><li><a href='#'>Open with Simple Viewer</a></li></ul></div></li><li><div class='dropdown'> <span aria-hidden='true' class='glyphicon glyphicon-circle-arrow-down'></span> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <span class='glyphicon glyphicon-triangle-bottom myset'></span> </a>";
+                            _html += "<ul class='dropdown-menu' aria-labelledby='dLabel'><li><a href='#'>Download Viewer</a></li><li><a href='#'>Download ISO</a></li></ul></div></li><li class='anchor_link'><div class='dropdown'> <input type='hidden' id='stdid" + i + "' value='" + value[i].uuid + "'/>  <input type='hidden' id='stduid" + i + "' value='" + value[i].study_uid + "'/> <input type='hidden' id='phi_namespace" + i + "' value='" + value[i].phi_namespace + "'/> <input type='hidden' id='accession_number" + i + "' value='" + value[i].accession_number + "'/> <input type='hidden' id='sharedob" + i + "' value='" + value[i].patient_birth_date + "'/> <input type='hidden' id='shareaccno" + i + "' value='" + value[i].accession_number + "'/> <input type='hidden' id='storage_namespace" + i + "' value='" + value[i].storage_namespace + "'/> <input type='hidden' id='engine_fqdn" + i + "' value='" + value[i].engine_fqdn + "'/>  <a href='' onClick='getPdata(" + i + ");' id='dLabel' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span aria-hidden='true' class='glyphicon glyphicon-pencil'></span></a>";
+                            _html += "<ul class='dropdown-menu edit_dropdown' aria-labelledby='dLabel'><form class='form-inline'>";
+                            _html += "<div class='form-group'><input type='text' id='pname" + i + "' class='form-control' placeholder='Patient Name'><input type='text' id='pdob" + i + "' class='form-control' placeholder='Patient DOB'>";
+                            _html += "<select class='form-control'><option>Sex</option><option>M</option><option>F</option></select><input type='text' id='accno" + i + "' class='form-control' placeholder='Study Accession Number'>";
+                            _html += "<input type='text' id='stddesc" + i + "' class='form-control' placeholder='Study Description'><input type='text' id='mrn" + i + "' class='form-control' placeholder='Patient MRN'>";
+                            _html += "<input type='text' id='stddate" + i + "' class='form-control' placeholder='Study Date (mm-dd-yy)'><input type='text' id='rphy" + i + "' class='form-control' placeholder='Referring Physician'>";
+                            _html += "<select class='form-control'><option>Study Modality</option><option>MR</option><option>US</option><option>CS</option></select>";
+                            _html += "<select class='form-control'><option>Study Status</option><option>Signed</option><option>UnSigned</option></select>";
+                            _html += "</div><div class='form-group'><button type='submit' class='btn btn-default search' onClick='UpdatePInfo(" + i + ");'>Save</button><button type='submit' class='btn btn-default'>Cancel</button>";
+                            _html += "</div></form></ul></div></li><li class='anchor_link'><a href=''><span aria-hidden='true' class='glyphicon glyphicon-file'></span></a></li>";
+                            _html += "<li class='report_link'  ><div class='dropdown'> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' onClick='getReportList(" + i + ");'> Reports <span class='glyphicon glyphicon-triangle-bottom myset'></span></a>";
+                            _html += "<ul class='dropdown-menu edit_dropdown' aria-labelledby='dLabel'><div id='reportlist" + i + "'></div><div class='attache_div'><h2>Attach report</h2><div class='form-group'><input type='file' id='reportfile" + i + "'></div><div class='form-group'><button type='submit' class='btn btn-default' onclick='return uploadReport(" + i + ");'>Upload</button>";
+                            _html += "</div></div></ul></div></li></ul></div></td></tr>";
+                        }
+                    }
+                });
+
+                $('#newtr').html(_html);
+
+            },
+            error: function (xhr) {
+                //  var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+    }
+
+</script>
+</body>
+</html>

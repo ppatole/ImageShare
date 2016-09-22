@@ -1,0 +1,187 @@
+﻿@model Project.Web.Models.StudyModel
+@using Project.Web.Common
+@{
+    ViewBag.Title = "Virtual Pacs";
+    Layout = "~/Views/Shared/_LayoutOuter.cshtml";
+    SessionHelper session = new  SessionHelper();
+    string sid = @session.UserSession.sid;
+    string uuid = @session.UserSession.uuid;
+  
+}
+@if (Request.IsAuthenticated && session.UserSession != null)
+{
+@session.UserSession.sid
+}
+<style>
+
+    .large-logo {
+  background-image: none !important;
+  height: auto !important;
+}
+    .add_load .main_content {
+  margin-top: 85px;
+}
+    .clear-container-padding {
+  display: none;
+}
+    #uploadstudyframe {
+  height: 342px;
+}
+</style>
+
+<div class="main_content">
+    <div >
+    		<div class="upload_div">
+                <input id="txtnamespaceid" type="hidden" />
+      	<div class="row">
+        	@*<div class="col-sm-4 col-md-4">
+                    
+                    <div class="upload_img">
+                        <img src="@Url.Content("~/Content/img/computer.png")">
+                        <p>Insert your medical images CD into
+    your computer now</p>
+                    </div>
+                </div>*@
+              <iframe id="uploadstudyframe" height="100%" width="100%"></iframe>
+          @*<div class="col-sm-8 col-md-8">
+            	
+                <div class="upload_details">
+                <h3>upload study to information desk</h3>
+                <div class="form-group">
+                	<div class="checkbox">
+    <label class="choose">
+       Choose files to be scanned and   verified     </label>
+  </div>
+  <div class="form-group">
+  <div class="file_upload">
+    <input type="file" id="exampleInputFile">
+    </div>
+  </div>
+  </div>
+                </div>
+            </div>*@
+        </div>
+        </div>
+      </div>
+    
+    <div class="clearfix"></div>
+  </div>
+
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+       // alert("Hello");
+        getOrg1();
+       
+    });
+</script>
+
+<script type="text/javascript">
+    function addlink() {
+
+        var sid = '@session.UserSession.sid';
+       
+        var namespace_id = $('#txtnamespaceid').val();
+
+       // alert('namespace_id' + namespace_id);
+
+        $.ajax({
+            url: 'https://virtualpacs.dicomgrid.com/api/v3/link/add',
+            dataType: "json",
+            type: "POST",
+            data: { "sid": sid, "namespace_id": namespace_id, "action": "STUDY_UPLOAD", "use_share_code": "1" },
+            //async: false,
+            //cache: false,
+            success: function (data) {
+              
+                //alert(data.status);
+                //alert(data.uuid);
+                //alert(data.url);
+                var studyuploadUrl = 'https://virtualpacs.dicomgrid.com/api/v3/link/redirect?uuid=' + data.uuid + '&email_address=info@twinpod.com&suppress_notification=1&integration_key=Case1235';
+                //alert(studyuploadUrl);
+                $('#uploadstudyframe').attr("src", studyuploadUrl);
+            },
+            error: function (xhr) {
+
+                alert(xhr.status);
+                var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+                    // $('#newtr').html(value);
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+    }
+
+
+    function getOrg1() {
+
+        //alert("Hello");
+
+        var sid = '@session.UserSession.sid';
+        //var studyuid = $('#stdid' + count).val();
+        //var uuid = '@session.UserSession.uuid';
+        //alert("Hello Pdata" + sid );
+
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/account/list',
+            dataType: "json",
+            type: "POST",
+            data: { "sid": sid, "permissions": "1" },
+            //async: false,
+            //cache: false,
+            success: function (data) {
+                var _html = "";
+                var _html1 = "";
+                var j = 0;
+                for (var i = 0; data.accounts.length; i++) {
+
+
+                    if (j == 0) {
+
+                        $('#txtorgid').val(data.accounts[i].uuid);
+                        $('#txtnamespaceid').val(data.accounts[i].namespace_id);
+                        $('#dLabel2').html(data.accounts[i].name + " <span class='glyphicon glyphicon-triangle-bottom drop_icon'></span>");
+                       
+                        addlink();
+                        
+                        j = 1;
+                    }
+
+                    // alert(data.accounts[i].permissions.link_edit);
+
+                    if (data.accounts[0].permissions.link_edit == 1 && data.accounts[0].permissions.link_view == 1 && data.accounts[0].permissions.link_edit_upload == 1) {
+
+                        $('#studyuploadpanel').html("<li><a href='@Url.Action("UploadStudy","Home")'>Upload Studies</a></li>");
+                    }
+
+                    _html1 += "<li><input type='hidden' id='orgroleid" + i + "' value='" + data.accounts[i].role_id + "'/><input type='hidden' id='acceditstatus" + i + "' value='" + data.accounts[i].permissions.account_edit + "' /> <input type='hidden' id='link_edit" + i + "' value='" + data.accounts[i].permissions.link_edit + "' /> <input type='hidden' id='link_view" + i + "' value='" + data.accounts[i].permissions.link_view + "' /> <input type='hidden' id='link_edit_upload" + i + "' value='" + data.accounts[i].permissions.link_edit_upload + "' /> <input type='hidden' id='uuid1" + i + "' value='" + data.accounts[i].uuid + "'/><a id='tp1" + i + "' href='#' onclick='changeFilter1(" + i + ");'>" + data.accounts[i].name + "</a></li>";
+
+                    //}
+                    //$('#drpmenu').html(_html);
+                    $('#drpmenu1').html(_html1);
+                    // $('#orglist').html(_html);
+                }
+              
+           
+
+
+            },
+            error: function (xhr) {
+                var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+                    // $('#newtr').html(value);
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+
+
+    }
+</script>

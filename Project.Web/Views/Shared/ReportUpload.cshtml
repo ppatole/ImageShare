@@ -1,0 +1,117 @@
+﻿@using Project.Web.Common
+@{
+    SessionHelper session = new SessionHelper();
+}
+
+<script type="text/javascript">
+
+    function GetAllCase() {
+        // alert('Test');
+        //alert(str);
+
+        var sid = '@session.UserSession.sid';
+        //  var strnum = str;
+        //var uuid =id;
+        //alert("" + uuid);
+        $.ajax({
+            url: 'https://access.dicomgrid.com/api/v3/study/list',
+            dataType: "json",
+            type: "POST",
+            //contentType: 'application/json; charset=utf-8',
+            data: { "sid": sid, "sort_by": "patient_name-asc" },
+            async: false,
+            // beforeSend: function (data) { data.setRequestHeader("Authorization", make_base_auth("info@twinpod.com", "info1234")) },
+            // processData: false,
+            cache: false,
+            success: function (data) {
+                var _html = "";
+                $.each(data, function (i, value) {
+
+                    //_html += i + "-" + value + "<br>";
+
+                    for (var i = 0; i < value.length; i++) {
+
+                        _html += "<tr><td><input  type='checkbox'  /></td><td><h4 id='h4pname" + i + "'>" + value[i].patient_name + "</h4><div class='adit_area'><a href='' data-toggle='modal' data-target='#auditModal' onClick='getPAuditDetail(" + i + ");'><i class='fa fa-file-text-o'></i></a><a href='#' class='star_box'><span aria-hidden='true' class='glyphicon glyphicon-star'></span></a><input type='hidden' id='studylink" + i + "' value='" + value[i].viewer_link + "' /> <a href='#' data-toggle='modal' data-target='#download' onclick='openDownlod();'><span aria-hidden='true' class='glyphicon glyphicon-download-alt'></span></a></div>";
+                        _html += "<p>(" + value[i].patient_sex + ") DOB " + value[i].patient_birth_date + " MRN " + value[i].patientid + "</p></td>";
+                        _html += "<td><h4>" + value[i].study_description + "</h4><p>" + value[i].modality + " " + value[i].image_count + " Images    Acc  " + value[i].accession_number + "";
+                        _html += " RPhys:" + value[i].referring_physician + "</p><a href=''>Study Status</a></td><td><h4>" + value[i].study_date + "</h4><p>" + value[i].study_time + "</p></td>";
+                        _html += "<td><h4>" + value[i].created + "</h4></td><td><div class='drop_list'><ul><li><div id='stdviewer" + i + "' class='dropdown' onclick='openViewer(" + i + ");'> <span class='glyphicon glyphicon-eye-open'></span> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <span class='glyphicon glyphicon-triangle-bottom myset'></span> </a>";
+                        _html += "<ul class='dropdown-menu' aria-labelledby='dLabel'><li><a href='#'>Open in New Tab</a></li><li><a href='#' >Open as Related Study</a></li><li><a href='#'>Open with Simple Viewer</a></li><li><a href='#'>Open with WebGL Viewer</a></li><li><a href='#' >View Key Images</a></li></ul></div></li><li><div class='dropdown'> <span aria-hidden='true' class='glyphicon glyphicon-circle-arrow-down'></span> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <span class='glyphicon glyphicon-triangle-bottom myset'></span> </a>";
+                        _html += "<ul class='dropdown-menu' aria-labelledby='dLabel'><li><a href='#'>Download Viewer</a></li><li><a href='#'>Download ISO</a></li></ul></div></li><li class='anchor_link'><div class='dropdown'> <input type='hidden' id='stdid" + i + "' value='" + value[i].uuid + "'/> <input type='hidden' id='stduid" + i + "' value='" + value[i].study_uid + "'/> <input type='hidden' id='phi_namespace" + i + "' value='" + value[i].phi_namespace + "'/> <input type='hidden' id='storage_namespace" + i + "' value='" + value[i].storage_namespace + "'/> <input type='hidden' id='sharedob" + i + "' value='" + value[i].patient_birth_date + "'/> <input type='hidden' id='shareaccno" + i + "' value='" + value[i].accession_number + "'/> <input type='hidden' id='engine_fqdn" + i + "' value='" + value[i].engine_fqdn + "'/>  <a href='' onClick='getPdata(" + i + ");' id='dLabel' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span aria-hidden='true' class='glyphicon glyphicon-pencil'></span></a>";
+                        _html += "<ul class='dropdown-menu edit_dropdown' aria-labelledby='dLabel'><form class='form-inline'>";
+                        _html += "<div class='form-group'><input type='text' id='pname" + i + "' class='form-control' placeholder='Patient Name'><input type='text' id='pdob" + i + "' class='form-control' placeholder='Patient DOB'>";
+                        _html += "<select class='form-control'><option>Sex</option><option>M</option><option>F</option></select><input type='text' id='accno" + i + "' class='form-control' placeholder='Study Accession Number'>";
+                        _html += "<input type='text' id='stddesc" + i + "' class='form-control' placeholder='Study Description'><input type='text' id='mrn" + i + "' class='form-control' placeholder='Patient MRN'>";
+                        _html += "<input type='text' id='stddate" + i + "' class='form-control' placeholder='Study Date (mm-dd-yy)'><input type='text' id='rphy" + i + "' class='form-control' placeholder='Referring Physician'>";
+                        _html += "<select class='form-control'><option>Study Modality</option><option>MR</option><option>US</option><option>CS</option></select>";
+                        _html += "<select class='form-control'><option>Study Status</option><option>Signed</option><option>UnSigned</option></select>";
+                        _html += "</div><div class='form-group'><button type='submit' class='btn btn-default search' onClick='UpdatePInfo(" + i + ");'>Save</button><button type='submit' class='btn btn-default'>Cancel</button>";
+                        _html += "</div></form></ul></div></li><li class='anchor_link'><a href=''><span aria-hidden='true' class='glyphicon glyphicon-file'></span></a></li>";
+                        _html += "<li class='report_link'><div class='dropdown'> <a id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> Reports <span class='glyphicon glyphicon-triangle-bottom myset'></span></a>";
+                        _html += "<ul class='dropdown-menu edit_dropdown' aria-labelledby='dLabel'><div class='first_step clearfix'><div class='left_detail_modal'><h4><a href='#'>radiologyreport.html</a></h4>";
+                        _html += "<p>From: Twinpod</p><p>Uploaded: Jan 02, 2016, 02:55AM</p></div><div class='right_detail_modal'><span><a href='#'><i class='fa fa-trash' aria-hidden='true'></i> Delete</a></span>";
+                        _html += "</div></div><div class='attache_div'><h2>Attach report</h2><form><div class='form-group'><input type='file' id='reportfile" + i + "'></div><div class='form-group'><button type='submit' class='btn btn-default' onclick='uploadReport(" + i + ");'>Upload</button>";
+                        _html += "</div></form></div></ul></div></li></ul></div></td></tr>";
+                    }
+
+                });
+
+                $('#newtr').html(_html);
+
+            },
+            error: function (xhr) {
+                //  var _html = "";
+                $.each(xhr, function (i, value) {
+                    //_html += i + "-" + value + "<br>";
+
+
+                });
+                // $('#tblEditSession').html(_html);
+            }
+        });
+    }
+
+
+  
+
+    function uploadReport(str) {
+        
+        var sid = '@session.UserSession.sid';
+        var storage_namespace = $('#storage_namespace' + str).val();
+        var engine_fqdn = $('#engine_fqdn' + str).val();
+        var stduid = $('#stduid' + str).val();
+        var data = new FormData();
+        var files = $("#reportfile" + str).get(0).files;
+        //alert(files);
+        if (files.length > 0) {
+            data.append("upload", files[0]);
+        }
+        //alert(data);
+
+        //alert(storage_namespace + " / " + engine_fqdn + " / " + stduid);
+        $.ajax({
+            url: 'https://' + engine_fqdn + '/api/v3/storage/study/' + storage_namespace + '/' + stduid + '/attachment',
+            contentType: 'multipart/form-data',
+            dataType: "json",
+            type: "POST",
+            data: { "data": files, "sid": sid },
+            //async: false,
+            //cache: false,
+            success: function (data) {
+                
+                alert('File Upload Success');
+
+            },
+            error: function (xhr) {
+               
+                alert('Error Upload Success');
+
+            }
+        });
+       
+    }
+
+
+
+  
+</script>

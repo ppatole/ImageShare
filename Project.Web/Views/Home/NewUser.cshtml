@@ -1,0 +1,127 @@
+﻿@using Project.Web.Common
+@{
+    SessionHelper session = new SessionHelper();
+    ViewBag.Title = "New User";
+  
+}
+ <!--start of main container-->
+<div class="main_content group_main_content">
+    <div class="container">
+        <div class="table_area">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="new_user">
+                        <form>
+                            <h2>Users / Create a user</h2>
+                            <div class="new_user_content">
+                                <div class="form-group clearfix">
+                                    <label for="firstName" class="col-sm-4 control-label">first Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="txtfname" >
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="Lastname" class="col-sm-4 control-label">Last name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="txtlname" >
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="Emailaddress" class="col-sm-4 control-label">Email address</label>
+                                    <div class="col-sm-8">
+                                        <input type="email" class="form-control" id="txtuseremail" >
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="Password" class="col-sm-4 control-label">Password</label>
+                                    <div class="col-sm-8">
+                                        <input type="password" class="form-control" id="txtuserpassword" >
+                                        <span class="help-block">8 characters or longer, containing 2 numbers and 2 letters</span>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="Confirmpassword" class="col-sm-4 control-label">Confirm password</label>
+                                    <div class="col-sm-8">
+                                        <input type="password" class="form-control" id="txtusercpassword" placeholder="">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox">Send a notification email to user's email address
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="Role" class="col-sm-4 control-label">Role</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="accountroles1"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="OrganizationLogin" class="col-sm-4 control-label">Organization Login</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="txtorglogin" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="Organization Email" class="col-sm-4 control-label">Organization Email</label>
+                                    <div class="col-sm-8">
+                                        <input type="email" class="form-control" id="txtorgemail" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="OrganizationAlias" class="col-sm-4 control-label">Organization Alias</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="txtorgalias" placeholder="">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox">Make this user a member of all locations and groups in the organization
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix location">
+                                    <label for="Organization Email" class="col-sm-4 control-label">Locations</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control">
+                                            <option>select</option>
+                                        </select>
+                                        <span>Role: </span>
+                                        <select class="form-control role" id="accountroles2">
+                                           
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="form-group clearfix location">
+                                    <label for="Organization Email" class="col-sm-4 control-label">Groups</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control">
+                                            <option>select</option>
+                                        </select>
+                                        <span>Role: </span>
+                                        <select class="form-control role" id="accountroles3">
+                                            
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="form-group common_button">
+                                    <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-5">
+                                        <button type="submit" class="btn_common" onclick="addNewUser();">save</button>
+                                        <button type="submit">cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+
+<!--end of main container-->
+

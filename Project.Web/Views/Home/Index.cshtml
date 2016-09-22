@@ -1,0 +1,220 @@
+﻿
+@using Project.Web.Common
+@{
+    ViewBag.Title = "Virtual Pacs";
+    Layout = "~/Views/Shared/_LayoutOuter.cshtml";
+    SessionHelper session = new  SessionHelper();
+    string sid = @session.UserSession.sid;
+    
+  
+}
+@if (Request.IsAuthenticated && session.UserSession != null)
+{
+@session.UserSession.sid
+}
+<script type="text/javascript">
+    $.cookie("sid", '@session.UserSession.sid');
+</script>
+    <div class="main_content">
+    <div class="container">
+      <div class="table_area">
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+            <div class="action_drop">
+              <div class="dropdown">
+                <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" id="dLabel"> <span class="glyphicon glyphicon-cog action_drop "></span> Actions <span class=" glyphicon glyphicon-triangle-bottom drck"></span> </button>
+                <ul aria-labelledby="dLabel" class="dropdown-menu">
+                  <li class="share"><a href="" id="modalshare"  onclick="return checkSeletion('share');"><span aria-hidden="true" class="glyphicon glyphicon-share-alt"></span> Share</a>
+                    <div class="modal fade" tabindex="-1" role="dialog">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Modal title</h4>
+                          </div>
+                          <div class="modal-body">
+                            <p>One fine body&hellip;</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                          </div>
+                        </div>
+                        <!-- /.modal-content --> 
+                      </div>
+                      <!-- /.modal-dialog --> 
+                    </div>
+                    <!-- /.modal --> 
+                  </li>
+                <li class="share destination"><a href=""  id="modaldestination" onclick="return checkSeletion('desti');" ><span aria-hidden="true" class=" glyphicon glyphicon-road"></span> Send to destination</a>
+                                            <div class="modal fade" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Modal title</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>One fine body&hellip;</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
+                                            </div>
+                                            <!-- /.modal -->
+                  </li>
+                                        
+                  <li class="delete"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-trash"></span> Delete </a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="refresh_btn">
+              <button onclick="GetAllCase();"><span aria-hidden="true" class="glyphicon glyphicon-refresh"></span> Refresh List</button>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <div class="serch_area">
+              <input type="text" placeholder="Patient Name" id="txtpname">
+              <button onclick="filterByName();"><span class="glyphicon glyphicon-search"></span></button>
+              <!--div class="dropdown">
+  <a id="dLabel" data-target="#" href="http://example.com" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+    Advanced
+    <span class="caret"></span>
+  </a>
+
+  <ul class="dropdown-menu" aria-labelledby="dLabel">
+    ...
+  </ul>
+</div-->
+              <div class="dropdown"> <a href="#" id="Advance_search"> Advanced <span class="caret"></span> </a> </div>
+            </div>
+          </div>
+        </div>
+        <!-- advance search -->
+        <div class="advance_dropdown">
+          <div class="advance_search">
+            <h2>Advanced Search</h2>
+            <span id="close"> <i class="fa fa-times" aria-hidden="true"></i> </span>
+            <form class="form-inline">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Patient Name" id="stxtpname">
+                <select class="form-control" id="stxtsex">
+                  <option value="">Sex</option>
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>
+                </select>
+                <input type="text" class="form-control" placeholder="MRN" id="stxtmrn">
+                <input type="text" class="form-control" placeholder="DOB (mm-dd-yy)" id="stxtdob">
+                <input type="text" class="form-control" placeholder="Accession#" id="stxtaccno">
+                <input type="text" class="form-control" placeholder="Study Description" id="stxtstddesc">
+                <input type="text" class="form-control" placeholder="Referring Physician" id="stxtrefphy">
+                <select class="form-control" id="stxtstdstage">
+                  <option value="">Study Stage</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+                <select class="form-control" id="stxtstdstatus" ><!--filter.study_push_status.equals-->
+                  <option value="">Send Status</option>
+                  <option value="All">All</option>
+                  <option value="I">In Process</option>
+                  <option value="N">Pending</option>
+                  <option value="S">Successful</option>
+                  <option value="P">Partial</option>
+                  <option value="F">Failed</option>
+                </select>
+                <select class="form-control" id="stxtstddate" onchange="getStddate();">
+                  <option value="">Study Date</option>
+                  <option value="today">Today</option>
+                  <option value="todayyesterday">Today and Yesterday</option>                  
+                  <option value="last3">Last 3 Days</option>
+                  <option value="last3business">Last 3 Business Days</option>
+                  <option value="last7">Last 7 Days</option>
+                  <option value="last31">Last 31 Days</option>
+                  <option value="lastyear">Last Year</option>
+                  <option value="custom">Custom Date Rang</option>
+                </select>
+                <input type="hidden" class="form-control" id="stxtstddatef" placeholder="(mm-dd-yy)" />
+                <input type="hidden" class="form-control" id="stxtstddatet" placeholder="(mm-dd-yy)"/>
+                <select class="form-control" id="stxtupddate" onchange="getUpddate();">
+                  <option value="">Uploaded Date</option>
+                  <option value="today">Today</option>
+                  <option value="todayyesterday">Today and Yesterday</option>                  
+                  <option value="last3">Last 3 Days</option>
+                  <option value="last3business">Last 3 Business Days</option>
+                  <option value="last7">Last 7 Days</option>
+                  <option value="last31">Last 31 Days</option>
+                  <option value="lastyear">Last Year</option>
+                  <option value="custom">Custom Date Rang</option>
+                </select>
+                <input type="hidden" class="form-control" id="stxtupddatef" placeholder="DOB (mm-dd-yy)" />
+                <input type="hidden" class="form-control" id="stxtupddatet" placeholder="DOB (mm-dd-yy)" />
+                <select class="form-control" id="stxtstar"><!--filter.star.equals-->
+                  <option value="">Starred</option>
+                  <option value="All">All</option>
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+
+                <div class="multiselect">
+                    <div class="selectBox" onclick="showCheckboxes()">
+                        <select>
+                            <option>modality</option>
+                        </select>
+                        <div class="overSelect"></div>
+                    </div>
+                    <div id="checkboxes">
+                        <label for="one"><input type="checkbox" id="one"/> select all</label>
+                        <label for="two"><input type="checkbox" id="two"/> mr </label>
+                        <label for="three"><input type="checkbox" id="three"/> cr</label>
+                        <label for="three1"><input type="checkbox" id="three1"/> cr</label>
+                        <label for="three2"><input type="checkbox" id="three2"/> cr</label>
+                        <label for="three3"><input type="checkbox" id="three3"/> cr</label>
+                        <label for="three4"><input type="checkbox" id="three4"/> cr</label>
+                        <label for="three5"><input type="checkbox" id="three5"/> cr</label>
+                        <label for="three6"><input type="checkbox" id="three6"/> cr</label>
+                        <label for="three7"><input type="checkbox" id="three7"/> cr</label>
+                        <label for="three8"><input type="checkbox" id="three8"/> cr</label>
+                        <label for="three9"><input type="checkbox" id="three9"/> cr</label>
+                        <label for="three10"><input type="checkbox" id="three10"/> cr</label>
+                    </div>
+                </div>
+                
+                <select class="form-control" id="stxtstdstatus">
+                  <option value="">Study Status</option>
+                  <option value="">1</option>
+                  <option value="">2</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-default search" onclick="return advanceSearch();">Search</button>
+                <button type="submit" class="btn btn-default">Clear</button>
+                <button type="submit" class="btn btn-default">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- advance search end -->
+        <div class="table_content">
+          <table cellpadding="0" cellspacing="0" width="100%" border="0" id="chklist">
+            <thead>
+            <th width="5%"><input type="checkbox" id="selectAll" ></th>
+              <th width="25%">Patient<a href="" class="arrow_set"><span class="glyphicon glyphicon-triangle-top"></span> <span  class="glyphicon glyphicon-triangle-bottom"></span></a></th>
+              <th width="21%">Study<a href="" class="arrow_set"><span class="glyphicon glyphicon-triangle-top"></span> <span  class="glyphicon glyphicon-triangle-bottom"></span></a></th>
+              <th width="10%">Study Date<a href="" class="arrow_set"><span class="glyphicon glyphicon-triangle-top"></span> <span  class="glyphicon glyphicon-triangle-bottom"></span></a></th>
+              <th width="10%">Uploaded<a href="" class="arrow_set"><span class="glyphicon glyphicon-triangle-top"></span> <span  class="glyphicon glyphicon-triangle-bottom"></span></a></th>
+              <th width="29%">Actions</th>
+                </thead>
+            <tbody id="newtr">  
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>Virtual Pacs</title>
+<!-- Bootstrap -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/animate.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<!-- REVOLUTION BANNER CSS SETTINGS -->
+<link href="css/custom.css" rel="stylesheet">
+<link href="css/responisve.css" rel="stylesheet" type="text/css" />
+<script src="js/modernizr-custom.js"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="add_load">
+<main class="animsition"> 
+  <!--Header sec start-->
+  <header class="header">
+    <nav class="navbar navbar-default navbar-fixed-top affix-top" id="mainNav">
+      <div class="container"> 
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" class="navbar-toggle collapsed" type="button"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+          <a href="" class="navbar-brand page-scroll"><img src="images/logo.png"></a> </div>
+        
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li> <a href="" class="page-scroll">Studies</a> </li>
+            <li> <a href="" class="page-scroll">Activities<span>11</span></a> </li>
+            <li> <a href="" class="page-scroll">Patients</a> </li>
+            <li> <a href="" class="page-scroll">Analytics</a> </li>
+            <li> <a href="" class="page-scroll">Cases</a> </li>
+            <li> <a href="" class="page-scroll">Messages</a> </li>
+            <li> <a href="" class="page-scroll">Administration</a> </li>
+          </ul>
+        </div>
+        <!-- /.navbar-collapse --> 
+      </div>
+      <!-- /.container-fluid -->
+      <div class="header_bluepart">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-sm-6">
+              <div class="studies_area">
+                <label>Studies:</label>
+                <div class="twinpod_drop">
+                  <div class="dropdown">
+                    <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Twinpod <span class="caret"></span> </button>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                      ...
+                    </ul>
+                  </div>
+                </div>
+                <div class="addstudy_drop">
+                  <div class="dropdown">
+                    <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span  class="glyphicon glyphicon-chevron-left "></span> Add Study <span class="glyphicon glyphicon-triangle-bottom drck"></span> </button>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                      ...
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-6 text-right">
+              <div class="top_right_nav">
+                <ul>
+                  <li>
+                    <div class="dropdown"> <a href=""  type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Twinpod <span class="glyphicon glyphicon-triangle-bottom drop_icon"></span></a>
+                      <ul class="dropdown-menu" aria-labelledby="dLabel">
+                        ...
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="dropdown">
+                    <a href=""  type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jessy Dhanjal<span class="glyphicon glyphicon-cog"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                      ...
+                    </ul>
+                  </li>
+                  <li><a href="">Sign Out</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      </div>
+    </nav>
+    <div class="clearfix"></div>
+  </header>
+  <!--Header sec end--> 
+  
+  <!--start of main container-->
+  <div class="main_content">
+    <div class="container">
+      <div class="table_area">
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+            <div class="action_drop">
+              <div class="dropdown">
+                <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" id="dLabel"> <span class="glyphicon glyphicon-cog action_drop "></span> Actions <span class=" glyphicon glyphicon-triangle-bottom drck"></span> </button>
+                <ul aria-labelledby="dLabel" class="dropdown-menu">
+                  <li class="share"><a href="" data-toggle="modal" data-target="#shareModal"><span aria-hidden="true" class="glyphicon glyphicon-share-alt"></span> Share</a>
+                    <div class="modal fade" tabindex="-1" role="dialog">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Modal title</h4>
+                          </div>
+                          <div class="modal-body">
+                            <p>One fine body&hellip;</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                          </div>
+                        </div>
+                        <!-- /.modal-content --> 
+                      </div>
+                      <!-- /.modal-dialog --> 
+                    </div>
+                    <!-- /.modal --> 
+                  </li>
+                  <li class="delete"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-trash"></span> Delete </a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="refresh_btn">
+              <button><span aria-hidden="true" class="glyphicon glyphicon-refresh"></span> Refresh List</button>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <div class="serch_area">
+              <input type="text">
+              <button><span class="glyphicon glyphicon-search"></span></button>
+              <div class="dropdown"> <a id="dLabel" data-target="#" href="http://example.com" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Advanced <span class="caret"></span> </a>
+                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                  ...
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table_content">
+          <table cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+            <th width="5%"><input type="checkbox"></th>
+              <th width="25%">Patient<a href="" class="arrow_set"><span class="glyphicon glyphicon-triangle-top"></span> <span  class="glyphicon glyphicon-triangle-bottom"></span></a></th>
+              <th width="21%">Study<a href="" class="arrow_set"><span class="glyphicon glyphicon-triangle-top"></span> <span  class="glyphicon glyphicon-triangle-bottom"></span></a></th>
+              <th width="10%">Study Date<a href="" class="arrow_set"><span class="glyphicon glyphicon-triangle-top"></span> <span  class="glyphicon glyphicon-triangle-bottom"></span></a></th>
+              <th width="10%">Uploaded<a href="" class="arrow_set"><span class="glyphicon glyphicon-triangle-top"></span> <span  class="glyphicon glyphicon-triangle-bottom"></span></a></th>
+              <th width="29%">Actions</th>
+                </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><h4>ANGEL</h4>
+                  <div class="adit_area"> <a href=""><i class="fa fa-file-text-o"></i></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-star"></span></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-download-alt"></span></a> </div>
+                  <p>(M) DOB 06-11-1989 MRN 1</p></td>
+                <td><h4>ABDOMINAL</h4>
+                  <p>US 3 Images    Acc  #000002
+                    RPhys:</p>
+                  <a href="">Study Status</a></td>
+                <td><h4>03-04-2016</h4>
+                  <p>11:15 AM</p></td>
+                <td><h4>03-04-2016</h4>
+                  <p>1:00 pM</p></td>
+                <td><div class="drop_list">
+                    <ul>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-eye-open"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-circle-arrow-down"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a></li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-file"></span></a></li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Reports <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                  </div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><h4>ANGEL</h4>
+                  <div class="adit_area"> <a href=""><i class="fa fa-file-text-o"></i></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-star"></span></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-download-alt"></span></a> </div>
+                  <p>(M) DOB 06-11-1989 MRN 1</p></td>
+                <td><h4>ABDOMINAL</h4>
+                  <p>US 3 Images    Acc  #000002
+                    RPhys:</p>
+                  <a href="">Study Status</a></td>
+                <td><h4>03-04-2016</h4>
+                  <p>11:15 AM</p></td>
+                <td><h4>03-04-2016</h4>
+                  <p>1:00 pM</p></td>
+                <td><div class="drop_list">
+                    <ul>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-eye-open"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-circle-arrow-down"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a></li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-file"></span></a></li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Reports <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                  </div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><h4>ANGEL</h4>
+                  <div class="adit_area"> <a href=""><i class="fa fa-file-text-o"></i></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-star"></span></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-download-alt"></span></a> </div>
+                  <p>(M) DOB 06-11-1989 MRN 1</p></td>
+                <td><h4>ABDOMINAL</h4>
+                  <p>US 3 Images    Acc  #000002
+                    RPhys:</p>
+                  <a href="">Study Status</a></td>
+                <td><h4>03-04-2016</h4>
+                  <p>11:15 AM</p></td>
+                <td><h4>03-04-2016</h4>
+                  <p>1:00 pM</p></td>
+                <td><div class="drop_list">
+                    <ul>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-eye-open"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-circle-arrow-down"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a></li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-file"></span></a></li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Reports <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                  </div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><h4>ANGEL</h4>
+                  <div class="adit_area"> <a href=""><i class="fa fa-file-text-o"></i></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-star"></span></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-download-alt"></span></a> </div>
+                  <p>(M) DOB 06-11-1989 MRN 1</p></td>
+                <td><h4>ABDOMINAL</h4>
+                  <p>US 3 Images    Acc  #000002
+                    RPhys:</p>
+                  <a href="">Study Status</a></td>
+                <td><h4>03-04-2016</h4>
+                  <p>11:15 AM</p></td>
+                <td><h4>03-04-2016</h4>
+                  <p>1:00 pM</p></td>
+                <td><div class="drop_list">
+                    <ul>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-eye-open"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-circle-arrow-down"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a></li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-file"></span></a></li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Reports <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                  </div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><h4>ANGEL</h4>
+                  <div class="adit_area"> <a href=""><i class="fa fa-file-text-o"></i></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-star"></span></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-download-alt"></span></a> </div>
+                  <p>(M) DOB 06-11-1989 MRN 1</p></td>
+                <td><h4>ABDOMINAL</h4>
+                  <p>US 3 Images    Acc  #000002
+                    RPhys:</p>
+                  <a href="">Study Status</a></td>
+                <td><h4>03-04-2016</h4>
+                  <p>11:15 AM</p></td>
+                <td><h4>03-04-2016</h4>
+                  <p>1:00 pM</p></td>
+                <td><div class="drop_list">
+                    <ul>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-eye-open"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-circle-arrow-down"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a></li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-file"></span></a></li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Reports <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                  </div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><h4>ANGEL</h4>
+                  <div class="adit_area"> <a href=""><i class="fa fa-file-text-o"></i></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-star"></span></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-download-alt"></span></a> </div>
+                  <p>(M) DOB 06-11-1989 MRN 1</p></td>
+                <td><h4>ABDOMINAL</h4>
+                  <p>US 3 Images    Acc  #000002
+                    RPhys:</p>
+                  <a href="">Study Status</a></td>
+                <td><h4>03-04-2016</h4>
+                  <p>11:15 AM</p></td>
+                <td><h4>03-04-2016</h4>
+                  <p>1:00 pM</p></td>
+                <td><div class="drop_list">
+                    <ul>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-eye-open"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-circle-arrow-down"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a></li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-file"></span></a></li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Reports <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                  </div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><h4>ANGEL</h4>
+                  <div class="adit_area"> <a href=""><i class="fa fa-file-text-o"></i></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-star"></span></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-download-alt"></span></a> </div>
+                  <p>(M) DOB 06-11-1989 MRN 1</p></td>
+                <td><h4>ABDOMINAL</h4>
+                  <p>US 3 Images    Acc  #000002
+                    RPhys:</p>
+                  <a href="">Study Status</a></td>
+                <td><h4>03-04-2016</h4>
+                  <p>11:15 AM</p></td>
+                <td><h4>03-04-2016</h4>
+                  <p>1:00 pM</p></td>
+                <td><div class="drop_list">
+                    <ul>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-eye-open"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-circle-arrow-down"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a></li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-file"></span></a></li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Reports <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                  </div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><h4>ANGEL</h4>
+                  <div class="adit_area"> <a href=""><i class="fa fa-file-text-o"></i></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-star"></span></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-download-alt"></span></a> </div>
+                  <p>(M) DOB 06-11-1989 MRN 1</p></td>
+                <td><h4>ABDOMINAL</h4>
+                  <p>US 3 Images    Acc  #000002
+                    RPhys:</p>
+                  <a href="">Study Status</a></td>
+                <td><h4>03-04-2016</h4>
+                  <p>11:15 AM</p></td>
+                <td><h4>03-04-2016</h4>
+                  <p>1:00 pM</p></td>
+                <td><div class="drop_list">
+                    <ul>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-eye-open"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-circle-arrow-down"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a></li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-file"></span></a></li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Reports <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                  </div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><h4>ANGEL</h4>
+                  <div class="adit_area"> <a href=""><i class="fa fa-file-text-o"></i></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-star"></span></a> <a href=""><span aria-hidden="true" class="glyphicon glyphicon-download-alt"></span></a> </div>
+                  <p>(M) DOB 06-11-1989 MRN 1</p></td>
+                <td><h4>ABDOMINAL</h4>
+                  <p>US 3 Images    Acc  #000002
+                    RPhys:</p>
+                  <a href="">Study Status</a></td>
+                <td><h4>03-04-2016</h4>
+                  <p>11:15 AM</p></td>
+                <td><h4>03-04-2016</h4>
+                  <p>1:00 pM</p></td>
+                <td><div class="drop_list">
+                    <ul>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-eye-open"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span aria-hidden="true" class="glyphicon glyphicon-circle-arrow-down"></span> <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a></li>
+                      <li class="anchor_link"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-file"></span></a></li>
+                      <li>
+                        <div class="dropdown">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Reports <span class="glyphicon glyphicon-triangle-bottom myset"></span> </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            ...
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                  </div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <!--end of main container--> 
+  
+  <!--start of footer-->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-xs-6">
+          <ul>
+            <li><a href="">Indications For Use</a></li>
+            <li><a href="">Terms of Use</a></li>
+            <li><a href="">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 col-xs-6 text-right">
+          <p>© 2012-2016 VirtualPACS, Inc.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--end of footer--> 
+  <!-- share Modal start -->
+  <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Share Studies</h4>
+        </div>
+        <div class="modal-body">
+          <div class="share_content">
+            <h3>You are sharing the following studies</h3>
+            <ul>
+              <li>JAY (DOB - 01-12-1997 ), Accession1</li>
+            </ul>
+            <div class="modal_message">
+              <form>
+                <div class="form-group">
+                  <label>Message To Recipient</label>
+                  <textarea class="form-control" rows="5"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal_tab clearfix"> 
+              
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#organization" aria-controls="organization" role="tab" data-toggle="tab">Organizations</a></li>
+                <li role="presentation"><a href="#location" aria-controls="location" role="tab" data-toggle="tab">Locations</a></li>
+                <li role="presentation"><a href="#group" aria-controls="group" role="tab" data-toggle="tab">Groups</a></li>
+                <li role="presentation"><a href="#physician" aria-controls="physician" role="tab" data-toggle="tab">Physicians</a></li>
+                <li role="presentation"><a href="#share" aria-controls="share" role="tab" data-toggle="tab">Share Code</a></li>
+                <li role="presentation"><a href="#email" aria-controls="email" role="tab" data-toggle="tab">Email</a></li>
+              </ul>
+              
+              <!-- Tab panes -->
+              <div class="tab-content clearfix">
+                <div role="tabpanel" class="tab-pane active" id="organization">
+                  <div class="modal_check">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox">
+                        Check me out </label>
+                    </div>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox">
+                        Check me out </label>
+                    </div>
+                  </div>
+                  <div class="modal_search">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Live Search">
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="location">...</div>
+                <div role="tabpanel" class="tab-pane" id="group">...</div>
+                <div role="tabpanel" class="tab-pane" id="physician">...</div>
+                <div role="tabpanel" class="tab-pane" id="share">...</div>
+                <div role="tabpanel" class="tab-pane" id="email">...</div>
+              </div>
+            </div>
+            <div class="modal_button">
+              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- share Modal end --> 
+  
+</main>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+<script src="js/jquery.min.js"></script> 
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

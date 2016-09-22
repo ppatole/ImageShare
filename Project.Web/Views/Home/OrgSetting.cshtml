@@ -1,0 +1,203 @@
+﻿@using Project.Web.Common
+@{
+    SessionHelper session = new SessionHelper();
+    ViewBag.Title = "Admin Setting";
+   
+}
+  <div class="main_content group_main_content">
+    <div class="container">
+        <div class="table_area">
+            <div class="settings_form">
+                <form>
+                    <h2>settings</h2>
+                    <div class="settings_form_content">
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">oraganisation Name</label>
+                            <div class="col-sm-5">
+                                <input type="text" placeholder="" id="oraganisation" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">share code</label>
+                            <div class="col-sm-5">
+                                <input type="text" placeholder="" id="share" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">share description</label>
+                            <div class="col-sm-5">
+                                <input type="text" placeholder="" id="share_describe" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">session expiration</label>
+                            <div class="col-sm-5">
+                                <select class="form-control"><option></option></select>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">password expiration</label>
+                            <div class="col-sm-5">
+                                <select class="form-control"><option></option></select>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">study approve</label>
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Studies shared with this oraganisation must go through the approval process
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Studies uploaded to this oraganisation must go through the approva process
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Studies can only be shared with users in the oraganisation, not the location
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Enable upload notification for users added to this oraganisation
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">HL7 report template</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" style="min-height:150px;"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">Settings</label>
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Show HL7 report physician alias regexp
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Allow users to upload studies to their own account
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Automatically submit a join request if a user registers under the vanity domain
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Enable credit card processing for study share
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Limit Q/R to input gateway
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Create patients from studies
+
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Apply anonymize rules before upload
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">Business Associate Agreement URL</label>
+                            <div class="col-sm-5">
+                                <input type="text" placeholder="" id="Business" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">Training URL</label>
+                            <div class="col-sm-5">
+                                <input type="text" placeholder="" id="Training" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">FAQ URL</label>
+                            <div class="col-sm-5">
+                                <input type="text" placeholder="" id="FAQ" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">Manual URL</label>
+                            <div class="col-sm-5">
+                                <input type="text" placeholder="" id="Manual" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">Sign-in Page Links</label>
+                            <div class="col-sm-4">
+                                <label>Text</label>
+                                <input type="text" placeholder="" id="Text" class="form-control">
+                            </div>
+                            <div class="col-sm-4">
+                                <span> <label>URL</label><a href="#" class="pull-right">add nother</a></span>
+                                <input type="text" placeholder="" id="Manual" class="form-control">
+                            </div>
+                            <div class="col-sm-1"><i class="fa fa-close close_btn"></i></div>
+
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">From Email Address</label>
+                            <div class="col-sm-5">
+                                <input type="email" placeholder="" id="EmailAddress" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">From Email Name</label>
+                            <div class="col-sm-5">
+                                <input type="email" placeholder="" id="EmailName" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">Logout URL</label>
+                            <div class="col-sm-5">
+                                <input type="text" placeholder="" id="EmailName" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">User Default List View</label>
+                            <div class="col-sm-5">
+                                <select class="form-control"><option>select</option></select>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="firstName">Anonymize Rules</label>
+                            <div class="col-sm-4">
+                                <select class="form-control"><option>select</option></select>
+                                <input type="text" placeholder="" id="Emai" class="form-control">
+                            </div>
+                            <div class="col-sm-1"><i class="fa fa-close close_btn"></i></div>
+                        </div>
+                        <div class="form-group common_button">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class="col-sm-5">
+                                <button class="btn_common" type="submit">save</button>
+                                <button type="submit">cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>

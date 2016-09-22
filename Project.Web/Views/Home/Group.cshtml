@@ -1,0 +1,144 @@
+﻿@using Project.Web.Common
+@{
+    SessionHelper session = new  SessionHelper();   
+    ViewBag.Title = "Admin Setting";
+    int flag =  0;
+}
+
+  
+ <div class="main_content group_main_content">
+    <div class="container">
+      <div class="table_area">
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+           	<div class="group_heading">
+            	<h2>Groups</h2>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6">
+          		<div class="new_button">
+                	 <div class="new_button">
+                <div class="dropdown"> <a href="" id="dLabel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus" aria-hidden="true"></i>New group</a>
+                  <ul class="dropdown-menu edit_dropdown" aria-labelledby="dLabel">
+                    <form>
+                      <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" id="groupname">
+                      </div>
+                      <div class="form-group">
+                        <label>Share Code</label>
+                        <input type="text" class="form-control" id="groupsharecode">
+                      </div>
+                      <div class="form-group">
+                        <label>Share Description</label>
+                        <input type="text" class="form-control" id="groupsharedesc">
+                      </div>
+
+                      <div class="form-group">
+                        <div class="checkbox" >
+                          <label>
+      <input type="checkbox" id="groupcheck1"> Studies shared with this location must go through the approval process
+    </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+      <input type="checkbox" id="groupcheck2"> Studies uploaded to this location must go through the approva process
+    </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+      <input type="checkbox" id="groupcheck3"> Studies can only be shared with users in the location, not the location
+    </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+      <input type="checkbox" id="groupcheck4"> Enable upload notification for users added to this location
+    </label>
+                        </div>
+                        <div class="form-group">
+                          <button type="submit" class="btn btn-default search" onclick="SaveGroup();">Save</button>
+                          <button type="submit" class="btn btn-default">Cancel</button>
+                        </div>
+                      </div>
+                    </form>
+                  </ul>
+                </div>
+
+              </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+        <div class="table_content group_content">
+          <table cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+            
+              <th width="25%">Name<a href="" class="arrow_set"><span class="glyphicon glyphicon-triangle-top"></span> <span  class="glyphicon glyphicon-triangle-bottom"></span></a></th>
+              <th width="21%">Share Code<a href="" class="arrow_set"><span class="glyphicon glyphicon-triangle-top"></span> <span  class="glyphicon glyphicon-triangle-bottom"></span></a></th>
+              <th width="49%">Share URL<a href="" class="arrow_set"><span class="glyphicon glyphicon-triangle-top"></span> <span  class="glyphicon glyphicon-triangle-bottom"></span></a></th>
+              
+                </thead>
+            <tbody id="grouplist1">
+              
+          
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <!--end of main container--> 
+  <script type="text/javascript">
+
+      function SaveGroup() {
+
+          var account_id = $('#txtorgid').val();
+
+          var groupname = $('#groupname').val();
+          var groupsharecode = $('#groupsharecode').val();
+          var groupsharedesc = $('#groupsharedesc').val();
+          var check1 = "0";
+          var check2 = "0";
+          var check3 = "0";
+          var check4 = "0";
+
+          if ($('#groupcheck1').prop("checked") == true) {
+              check1 = "1";
+          }
+          if ($('#groupcheck2').prop("checked") == true) {
+              check1 = "2";
+          }
+          if ($('#groupcheck3').prop("checked") == true) {
+              check1 = "3";
+          }
+          if ($('#groupcheck4').prop("checked") == true) {
+              check1 = "4";
+          }
+
+          $.ajax({
+              url: 'https://access.dicomgrid.com/api/v3/group/add',
+              dataType: "json",
+              type: "POST",
+              data: { "sid": sid, "name": groupname, "account_id": account_id, "share_code": groupsharecode, "share_description": groupsharedesc, "must_approve": check1, "must_approve_upload": check2, "no_share": check3 },
+              //async: false,
+              //cache: false,
+              success: function (data) {
+               
+                  alert("Location Saved Successfully");
+
+              },
+              error: function (xhr) {
+                  var _html = "";
+                  $.each(xhr, function (i, value) {
+                      //_html += i + "-" + value + "<br>";
+                      // $('#newtr').html(value);
+
+                  });
+                  // $('#tblEditSession').html(_html);
+              }
+          });
+     
+      }
+
+  </script>
